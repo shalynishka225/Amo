@@ -6,14 +6,7 @@ const schema = new Schema({
     code: { type: String, required: true, unique:true },
     date: { type: Date, default: Date.now },
     clicks: { type: Number, default: 0 },
-    owner: { type: Types.ObjectId, ref: 'User'},
-    name: { type: String, required: true},
-    description: { type: String, required: true },
-    performance: { type: String, required: true },
-    certificates: { type: Object, required: true },
-    courses: { type: String, required: true },
-    reviews: { type: String, required: true }
-
+    owner: { type: Types.ObjectId, ref: 'User'}
 })  
 
-module.exports = model('Worker', schema)
+module.exports = model('Worker', schema);

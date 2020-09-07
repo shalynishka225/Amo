@@ -43,7 +43,7 @@ export const AuthPage = () => {
     const registerHandler = async () => {
         try {
             const data = await request('/api/auth/register', 'POST', {...form});
-            openNotification('Успех',data.message);
+            openNotification('Регистрация прошла успешно',data.message);
         } catch (e) {
             
         }
@@ -53,7 +53,7 @@ export const AuthPage = () => {
         try {
             const data = await request('/api/auth/login', 'POST', {...form});
             auth.login(data.token, data.userId);
-            openNotification('Успех',data.message);
+            openNotification('Вход выполнен успешно',data.message);
         } catch (e) {
             
         }

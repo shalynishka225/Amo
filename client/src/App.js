@@ -7,7 +7,7 @@ import { useAuth } from './hooks/auth.hook';
 import {AuthContext} from './context/AuthContext';
 import { Navbar } from './components/Navbar';
 
-const { Header, Content, Footer } = Layout;
+const { Content, Footer } = Layout;
 
 
 function App() {

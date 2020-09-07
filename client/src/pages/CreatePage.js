@@ -1,12 +1,32 @@
-import React, {useState} from 'react';
-import { Upload, Row, Col, Card, Space, Input, Tooltip, Descriptions, Table, Button, message } from 'antd';
+import React, {useState, useContext} from 'react';
+import { Upload, Row, Col, Input, Tooltip, Button, message } from 'antd';
 import ImgCrop from 'antd-img-crop';
-import { InfoCircleOutlined, UserOutlined, UploadOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/lib/input/TextArea';
+import { useHttp } from '../hooks/http.hook';
+import { AuthContext } from '../context/AuthContext';
 
+
+export const CreatePage = () => {
+
+  const auth = useContext(AuthContext);
+
+  const {request} = useHttp();
+
+  const pressHandler = async event => {
+    if(event.key === 'Enter') {
+      try {
+        const data = await request('/api/worker/generate', 'POST', {from: firstNameWorker, to:firstNameWorker, code:'fdgdfgdfg'}, {
+          authorization: `Bearer ${auth.token}`
+        });
+        console.log(data);
+      } catch (e) {
+        
+      }
+    }
+  }
 
 //avatar upload
-export const CreatePage = () => {
     const [fileList, setFileList] = useState([
       {
         uid: '-1',
@@ -15,6 +35,8 @@ export const CreatePage = () => {
         url: '',
       },
     ]);
+
+    const [firstNameWorker, setNameWorker] = useState('');
   
     const onChange = ({ fileList: newFileList }) => {
       setFileList(newFileList);
@@ -44,13 +66,13 @@ export const CreatePage = () => {
           authorization: 'authorization-text',
         },
         onChange(info) {
-          if (info.file.status !== 'uploading') {
+          if (info.file.status !== 'Загрузка') {
             console.log(info.file, info.fileList);
           }
           if (info.file.status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully`);
+            message.success(`${info.file.name} Файл успешно загружен`);
           } else if (info.file.status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
+            message.error(`${info.file.name} Ошибка загрузки.`);
           }
         },
       };
@@ -75,8 +97,11 @@ export const CreatePage = () => {
         <Input
             placeholder="Ім'я" 
             name="firstName"
+            value={ firstNameWorker }
+            onChange={e => setNameWorker(e.target.value)}
             id="firstName"
             type="text"
+            onKeyPress={pressHandler}
             suffix={
                 <Tooltip title="Введіть ваше ім'я">
                   <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
@@ -119,6 +144,10 @@ export const CreatePage = () => {
         <Upload {...props}>
             <Button icon={<UploadOutlined />}>Натисніть для загрузки</Button>
         </Upload>
+
+        <Button type="primary" htmlType="submit" >
+          Создать
+        </Button>
       
       </Col>
       </Row>

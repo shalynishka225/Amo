@@ -10,14 +10,18 @@ router.post('/generate', auth, async (req, res) => {
         const baseUrl = config.get('baseUrl');
         const { from } = req.body;
 
+        const code = 'shortid.generate()';
+
         const existing = await Worker.findOne({ from });
 
         if (existing) {
             return res.json({ worker: existing})
         }
 
+        const to = baseUrl + '/t/' + code;
+
         const worker = new Worker({
-            from, owner: req.user.userId
+            code, to, from, owner: req.user.userId
         })
 
         await worker.save();
@@ -39,8 +43,8 @@ router.get('/',auth, async (res, req) => {
 
 router.get('/:id',auth, async (res, req) => {
     try {
-        const workers = await Worker.findById(req.params.id);
-        res.json(workers);
+        const worker = await Worker.findById(req.params.id);
+        res.json(worker);
         } catch (e) {
             res.status(500).json({ message: "Что-то пошло не так. Попробуйте снова" });
         }
