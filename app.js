@@ -1,12 +1,18 @@
 const express = require('express');
 const config = require('config');
 const mongoose = require('mongoose');
+const Auth = require('./modules/auth/auth.routes');
+const Worker = require('./modules/worker/worker.routes');
 
-import { registerRestEndpoints } from './routes';
+//import { registerRestEndpoints } from './routes';
 
 const app = express();
 
-registerRestEndpoints(app)
+//registerRestEndpoints(app);
+app.use(express.json({ extended: true }));
+
+app.use('/api/auth', Auth);
+app.use('/api/worker', Worker);
 
 const PORT = config.get('port') || 5000;
 
@@ -25,4 +31,12 @@ async function start() {
 }
 
 start();
+
+// export const registerRestEndpoints = (app) => {
+//     applyMiddlewares(app);
+
+//     app.use('/auth', AuthRoutes);
+
+//     app.use('/auth', WorkerRoutes);
+// }
 

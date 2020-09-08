@@ -1,6 +1,6 @@
-import { Worker } from './worker.model';
+const Worker = require('./worker.model');
 
-export class WorkerController {
+class WorkerController {
   async generate(data) {
     try {
       const worker = await Worker.create(data);
@@ -11,3 +11,5 @@ export class WorkerController {
     }
   }
 }
+
+module.exports = WorkerController; 

@@ -4,6 +4,7 @@ import cors from 'cors';
 import { Application } from 'express';
 
 import AuthRoutes from './modules/auth/auth.routes';
+import WorkerRoutes from './modules/worker/worker.routes';
 
 const applyMiddlewares = (app) => {
   app.use(compression());
@@ -16,4 +17,5 @@ export const registerRestEndpoints = (app) => {
   applyMiddlewares(app);
 
   app.use('/auth', AuthRoutes);
+  app.use('/worker', WorkerRoutes);
 };

@@ -1,7 +1,10 @@
-import { User } from './auth.model'
+const  User = require('./auth.model');
 
-export default class AuthController {
+  class AuthController {
   async signup(data) {
     return await User.create(data)
   }
 }
+
+module.exports = AuthController;
+
