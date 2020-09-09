@@ -9,4 +9,4 @@ const schema = new Schema({
     owner: { type: Types.ObjectId, ref: 'User'}
 })  
 
-module.exports = model('Worker', schema, 'Worker');
+module.exports = model('Worker', schema);

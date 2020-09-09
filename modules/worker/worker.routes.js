@@ -1,24 +1,24 @@
 const { Router } = require('express');
 const config = require('config');
-
-const WorkerController = require('./worker.controller');
+//const WorkerController = require('./worker.controller');
 const Worker = require('../worker/worker.model');
-const auth = require('../../middleware/auth.middleware');
+const auth = require('../auth/auth.middleware');
 
 
 const router = Router();
 
-router.post('/generate', auth, async (req, res) => {
-  return res.json(await WorkerController.generate(req.body));
-})
-
+// router.post('/generate', auth, async (req, res) => {
+//   return res.json(await WorkerController.generate(req.body));
+// })
+console.log('1');
 router.post('/generate', auth, async (req, res) => {
     try {
-
+        console.log('2');
         const baseUrl = config.get('baseUrl');
+
         const { from } = req.body;
 
-        const code = 'shortid.generate()';
+        const code = 'code';
 
         const existing = await Worker.findOne({ from });
 

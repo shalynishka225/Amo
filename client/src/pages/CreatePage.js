@@ -1,24 +1,28 @@
 import React, {useState, useContext} from 'react';
-import { Upload, Row, Col, Input, Tooltip, Button, message } from 'antd';
+import { Upload, Row, Col, Input, Tooltip, Button, message, Checkbox, Divider } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import { InfoCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/lib/input/TextArea';
 import { useHttp } from '../hooks/http.hook';
 import { AuthContext } from '../context/AuthContext';
-
+import {useHistory} from 'react-router-dom';
 
 export const CreatePage = () => {
-
+  const history = useHistory();
   const auth = useContext(AuthContext);
+  const [worker, setWorker] = useState('');
 
   const {request} = useHttp();
+
 
   const pressHandler = async event => {
     if(event.key === 'Enter') {
       try {
-        const data = await request('/api/worker/generate', 'POST', {from: firstNameWorker, to:firstNameWorker, code:'fdgdfgdfg'}, {
-          authorization: `Bearer ${auth.token}`
+        console.log();
+        const data = await request('/api/worker/generate', 'POST', {from: worker}, {
+          Authorization: `Bearer ${auth.token}`
         });
+        history.push(`/detail/${data.worker._id}`);
         console.log(data);
       } catch (e) {
         
@@ -35,8 +39,6 @@ export const CreatePage = () => {
         url: '',
       },
     ]);
-
-    const [firstNameWorker, setNameWorker] = useState('');
   
     const onChange = ({ fileList: newFileList }) => {
       setFileList(newFileList);
@@ -97,8 +99,8 @@ export const CreatePage = () => {
         <Input
             placeholder="Ім'я" 
             name="firstName"
-            value={ firstNameWorker }
-            onChange={e => setNameWorker(e.target.value)}
+            value={ worker }
+            onChange={e => setWorker(e.target.value)}
             id="firstName"
             type="text"
             onKeyPress={pressHandler}
@@ -140,6 +142,101 @@ export const CreatePage = () => {
         
         />
         <p>Виберіть свою професійну діяльність</p>
+        <Checkbox.Group style={{ width: '100%' }}>
+        <h3>Монтаж:</h3>
+    <Row>
+      <Col >
+        <Checkbox value="A">бытовые кондиционеры</Checkbox>
+      </Col>
+      <Col>
+        <Checkbox value="B">полупромышленные кондиционеры</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="C">промышленные кондиционеры, ККБ</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="D">вентиляция</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="E">тепловые насосы</Checkbox>
+      </Col>
+      <Col >
+      <Checkbox value="">системы отопления</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="E">бойлеры</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="E">газовые колонки, котлы</Checkbox>
+      </Col>
+    </Row>
+  </Checkbox.Group>
+  <Divider />
+  <Checkbox.Group style={{ width: '100%' }}>
+        <h3>диагностика поломок и ремонт:</h3>
+    <Row>
+      
+      <Col>
+        <Checkbox value="A">бытовые кондиционеры</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="B">полупромышленные кондиционеры</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="C">промышленные кондиционеры, ККБ</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="D">вентиляция</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="E">тепловые насосы</Checkbox>
+      </Col>
+      <Col >
+      <Checkbox value="">системы отопления</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="E">бойлеры</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="E">газовые колонки, котлы</Checkbox>
+      </Col>
+    </Row>
+  </Checkbox.Group>
+  <Divider />
+  <Checkbox.Group style={{ width: '100%' }}>
+        <h3>сервисное обслуживание:</h3>
+    <Row>
+      
+      <Col>
+        <Checkbox value="A">бытовые кондиционеры</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="B">полупромышленные кондиционеры</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="C">промышленные кондиционеры, ККБ</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="D">вентиляция</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="E">тепловые насосы</Checkbox>
+      </Col>
+      <Col >
+      <Checkbox value="">системы отопления</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="E">бойлеры</Checkbox>
+      </Col>
+      <Col >
+        <Checkbox value="E">газовые колонки, котлы</Checkbox>
+      </Col>
+    </Row>
+  </Checkbox.Group>
+  <br />
+  
+
+  
         <p>Вкажіть сертифікати якщо вони є</p>
         <Upload {...props}>
             <Button icon={<UploadOutlined />}>Натисніть для загрузки</Button>

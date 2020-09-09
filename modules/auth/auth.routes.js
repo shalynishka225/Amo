@@ -8,11 +8,11 @@ const config = require('config');
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
-  await AuthController.signup(req.body);
-  return res.json(req.body)
+// router.post('/', async (req, res) => {
+//   await AuthController.signup(req.body);
+//   return res.json(req.body)
 
-})
+// })
 
 // /api/auth/register
 router.post(
@@ -86,11 +86,11 @@ router.post(
       if(!isMatch) {
           res.status(400).json({ message: "Неверный пароль" });
       }
-
+      console.log('here');
       const token = jwt.sign(
           { userId: user.id },
           config.get('jwtSecret'),
-          { expiresIn: '1h'}
+          { expiresIn: 60 * 60 * 20}
       );
 
       res.json({ token, userId: user.id });

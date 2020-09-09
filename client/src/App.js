@@ -26,7 +26,7 @@ function App() {
         <h1>{ routes }</h1>
       </div>
     </Content>
-    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+    <Footer style={{ textAlign: 'center' }}>Mapuik design ©2020</Footer>
   </Layout>
     </Router>
     </AuthContext.Provider>
