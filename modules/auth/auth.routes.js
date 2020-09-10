@@ -27,6 +27,8 @@ router.post(
 
       const errors = validationResult(req);
 
+      console.log(validationResult(req));
+
       if(!errors.isEmpty()) {
           return res.status(400).json({
               errors: errors.array(),
@@ -86,7 +88,7 @@ router.post(
       if(!isMatch) {
           res.status(400).json({ message: "Неверный пароль" });
       }
-      console.log('here');
+
       const token = jwt.sign(
           { userId: user.id },
           config.get('jwtSecret'),

@@ -10,16 +10,18 @@ import {useHistory} from 'react-router-dom';
 export const CreatePage = () => {
   const history = useHistory();
   const auth = useContext(AuthContext);
-  const [worker, setWorker] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [secondName, setSecondName] = useState('');
+  const [thirdName, setThirdName] = useState('');
 
   const {request} = useHttp();
 
 
-  const pressHandler = async event => {
-    if(event.key === 'Enter') {
+  const submitHandler = async () => {
+    
       try {
-        console.log();
-        const data = await request('/api/worker/generate', 'POST', {from: worker}, {
+
+        const data = await request('/api/worker/generate', 'POST', {firstName: firstName, secondName: secondName, thirdName: thirdName}, {
           Authorization: `Bearer ${auth.token}`
         });
         history.push(`/detail/${data.worker._id}`);
@@ -27,7 +29,7 @@ export const CreatePage = () => {
       } catch (e) {
         
       }
-    }
+
   }
 
 //avatar upload
@@ -99,11 +101,10 @@ export const CreatePage = () => {
         <Input
             placeholder="Ім'я" 
             name="firstName"
-            value={ worker }
-            onChange={e => setWorker(e.target.value)}
+            value={ firstName }
+            onChange={e => setFirstName(e.target.value)}
             id="firstName"
             type="text"
-            onKeyPress={pressHandler}
             suffix={
                 <Tooltip title="Введіть ваше ім'я">
                   <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
@@ -116,6 +117,8 @@ export const CreatePage = () => {
             name="secondName"
             id="secondName"
             type="text"
+            value={ secondName }
+            onChange={e => setSecondName(e.target.value)}
             suffix={
                 <Tooltip title="Введіть ваше прізвище">
                   <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
@@ -128,6 +131,8 @@ export const CreatePage = () => {
             name="thirdName"
             id="thirdName"
             type="text"
+            value={ thirdName }
+            onChange={e => setThirdName(e.target.value)}
             suffix={
                 <Tooltip title="Введіть ваше по-батькові">
                   <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
@@ -242,7 +247,7 @@ export const CreatePage = () => {
             <Button icon={<UploadOutlined />}>Натисніть для загрузки</Button>
         </Upload>
 
-        <Button type="primary" htmlType="submit" >
+        <Button type="primary" htmlType="submit" onClick={submitHandler} >
           Создать
         </Button>
       

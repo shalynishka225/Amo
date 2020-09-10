@@ -9,6 +9,7 @@ import { AuthContext } from "../context/AuthContext";
 export const AuthPage = () => {
     const auth = useContext(AuthContext);
 
+    //console.log(auth);
     const openNotification = (message, error) => {
         notification.open({
           message: message,

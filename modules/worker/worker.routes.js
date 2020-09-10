@@ -10,26 +10,26 @@ const router = Router();
 // router.post('/generate', auth, async (req, res) => {
 //   return res.json(await WorkerController.generate(req.body));
 // })
-console.log('1');
+
 router.post('/generate', auth, async (req, res) => {
     try {
-        console.log('2');
+
         const baseUrl = config.get('baseUrl');
 
-        const { from } = req.body;
+        const { firstName } = req.body;
+        const { secondName } = req.body;
+        const { thirdName } = req.body;
 
-        const code = 'code';
-
-        const existing = await Worker.findOne({ from });
+        const existing = await Worker.findOne({ firstName });
 
         if (existing) {
             return res.json({ worker: existing})
         }
 
-        const to = baseUrl + '/t/' + code;
+        const to = baseUrl;
 
         const worker = new Worker({
-            code, to, from, owner: req.user.userId
+            firstName, secondName, thirdName, to, owner: req.user.userId
         })
 
         await worker.save();
@@ -40,22 +40,22 @@ router.post('/generate', auth, async (req, res) => {
     }
 })
 
-router.get('/',auth, async (res, req) => {
+router.get('/', auth, async (req, res) => {
     try {
-        const workers = await Worker.find({ owner: req.user.userId});
-        res.json(workers);
+      const workers = await Worker.find({ owner: req.user.userId })
+      res.json(workers)
     } catch (e) {
-        res.status(500).json({ message: "Что-то пошло не так. Попробуйте снова" });
+      res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
     }
-})
+  })
 
-router.get('/:id',auth, async (res, req) => {
+router.get('/:id', auth, async (req, res) => {
     try {
-        const worker = await Worker.findById(req.params.id);
-        res.json(worker);
-        } catch (e) {
-            res.status(500).json({ message: "Что-то пошло не так. Попробуйте снова" });
-        }
-})
+      const worker = await Worker.findById(req.params.id)
+      res.json(worker)
+    } catch (e) {
+      res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+    }
+  })
 
 module.exports = router;
