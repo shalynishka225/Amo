@@ -1,13 +1,14 @@
 const { Schema, model, Types } = require('mongoose');
 
 const schema = new Schema({
-    firstName: { type: String, required: true },
-    secondName: { type: String, required: true },
-    thirdName: { type: String, required: true },
-    to: { type:String, required: true, unique: true },
+    firstName: { type: String, default: '' },
+    secondName: { type: String, default: '' },
+    thirdName: { type: String, default: '' },
+    about: { type: String, default: '' },
     date: { type: Date, default: Date.now },
-    clicks: { type: Number, default: 0 },
-    owner: { type: Types.ObjectId, ref: 'User'}
+    owner: { type: Types.ObjectId, ref: 'User'},
+    checkTable: {type: Array, default: ''},
+    avatar: { type: Object, default: '' }
 })  
 
-module.exports = model('Worker', schema);
+module.exports = model('Worker', schema, 'Worker');

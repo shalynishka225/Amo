@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const config = require('config');
 //const WorkerController = require('./worker.controller');
 const Worker = require('../worker/worker.model');
 const auth = require('../auth/auth.middleware');
@@ -13,12 +12,12 @@ const router = Router();
 
 router.post('/generate', auth, async (req, res) => {
     try {
-
-        const baseUrl = config.get('baseUrl');
-
         const { firstName } = req.body;
         const { secondName } = req.body;
         const { thirdName } = req.body;
+        const { about } = req.body;
+        const { checkTable } = req.body;
+        const { avatar } = req.body;
 
         const existing = await Worker.findOne({ firstName });
 
@@ -26,11 +25,11 @@ router.post('/generate', auth, async (req, res) => {
             return res.json({ worker: existing})
         }
 
-        const to = baseUrl;
+        
 
         const worker = new Worker({
-            firstName, secondName, thirdName, to, owner: req.user.userId
-        })
+            firstName, secondName, thirdName, checkTable, avatar, about, owner: req.user.userId
+        });
 
         await worker.save();
         res.status(201).json({ worker });

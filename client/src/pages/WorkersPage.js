@@ -15,7 +15,6 @@ export const WorkersPage = () => {
         const fetched = await request('/api/worker', 'GET', null, {
           Authorization: `Bearer ${token}`
         })
-        console.log(fetched);
         setWorkers(fetched)
       } catch (e) {}
     }, [token, request])
@@ -30,7 +29,7 @@ export const WorkersPage = () => {
 
     return (
       <>
-        {!loading && workers && <WorkersList workers={workers} />}
+        {!loading && <WorkersList workers={workers} />}
       </>
     )
   }

@@ -3,7 +3,7 @@ const config = require('config');
 const mongoose = require('mongoose');
 const Auth = require('./modules/auth/auth.routes');
 const Worker = require('./modules/worker/worker.routes');
-
+const { cloudinary } = require('./utils/cloudinary');
 //import { registerRestEndpoints } from './routes';
 
 const app = express();
@@ -29,6 +29,32 @@ async function start() {
         process.exit(1);
     }
 }
+
+app.get('/api/images', async (req,res) => {
+    const { resources } = await cloudinary.search.expression
+    ('folder:example')
+    .sort_by('public_id', 'desc')
+    .max_results(30)
+    .execute()
+
+    const publicIds = resources.map( file => file.public_id)
+    res.send(publicIds)
+})
+
+app.post('/api/upload', async (req,res) => {
+    try {
+        const fileStr = req.body.data
+        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+            upload_preset: 'example'
+        })
+        console.log(uploadedResponse)
+        res.json({ msg: 'Cool' })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ err: 'Something went wrong' })
+    }
+})
+
 
 start();
 

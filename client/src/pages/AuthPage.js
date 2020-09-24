@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Row, Col, Card, Button, Input, Space, message, notification } from "antd";
+import { Row, Col, Card, Button, Input, Space, notification } from "antd";
 import { UserOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context/AuthContext";
@@ -8,8 +8,6 @@ import { AuthContext } from "../context/AuthContext";
 
 export const AuthPage = () => {
     const auth = useContext(AuthContext);
-
-    //console.log(auth);
     const openNotification = (message, error) => {
         notification.open({
           message: message,
@@ -33,7 +31,7 @@ export const AuthPage = () => {
         
           
         
-    }, [error, message, clearError]);
+    }, [error, clearError]);
 
 
 
@@ -63,7 +61,7 @@ export const AuthPage = () => {
   return (
     <Row>
       <Col span={6} offset={10} className="myClass">
-        Сайт ассоциации работников
+        Сайт ассоциации монтажников
         <Card title="Авторизация" style={{ width: 300 }}>
         <Space direction="vertical">
         <Input
