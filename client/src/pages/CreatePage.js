@@ -10,11 +10,14 @@ import {
   Divider,
 } from "antd";
 import ImgCrop from "antd-img-crop";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context/AuthContext";
 import { useHistory } from "react-router-dom";
+
+const CLOUDINARY_UPLOAD_PRESET = "example";
+const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/alliance-climat";
 
 export const CreatePage = () => {
   const history = useHistory();
@@ -88,7 +91,9 @@ export const CreatePage = () => {
       service: false,
     },
   ]);
-  const [fileList, setFileList] = useState([]);
+  const [avatarList, setAvatarList] = useState([]);
+  const [file, setFile] = useState("");
+  const [workPhotoList, setWorkPhotoList] = useState([]);
 
   const { request } = useHttp();
 
@@ -103,19 +108,26 @@ export const CreatePage = () => {
           thirdName: thirdName,
           about: about,
           checkTable: checkTable,
-          avatar: fileList[0].thumbUrl,
+          avatar: avatarList[0].thumbUrl,
+          //workPhoto: workPhotoList,
+          files: file,
         },
         {
           Authorization: `Bearer ${auth.token}`,
         }
       );
-      if (!fileList[0].thumbUrl) return;
-      uploadImage(fileList[0].thumbUrl);
+      if (!avatarList[0].thumbUrl) return;
+      console.log(workPhotoList);
+      uploadImage(avatarList[0].thumbUrl);
+      workPhotoList.map((photo,key) => {
+       uploadImage(photo.thumbUrl)
+      })
       history.push(`/detail/${data.worker._id}`);
     } catch (e) {}
   };
 
   const uploadImage = async (base64EncodedImage) => {
+    //console.log(base64EncodedImage);
     try {
       await fetch("/api/upload", {
         method: "POST",
@@ -127,9 +139,41 @@ export const CreatePage = () => {
     }
   };
 
-  const onChange = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
+  const uploadFiles = {
+    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    onChange({ file, fileList }) {
+      if (file.status !== "Загрузка") {
+        setFile(fileList);
+      }
+    },
   };
+
+  // const uploadFileHandler = (file) => {
+  //   const formData = new FormData();
+  //       formData.append('file', file);
+  //       formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+  //       axios({
+  //         url: CLOUDINARY_URL,
+  //         method: "POST",
+  //         headers: {
+  //           'Content-Type' : 'application/x-www-form-urlencoded'
+  //         },
+  //         data: formData
+  //       }).then(function(res) {
+  //         console.log(res)
+  //       }).catch(function(err) {
+  //         console.log(err)
+  //       })
+  // }
+
+  const onChangeAvatar = ({ fileList: newFileList }) => {
+    setAvatarList(newFileList);
+  };
+
+  const onChangeWorkPhoto = ({fileList: newFileList}) => {
+    setWorkPhotoList(newFileList);
+  }
 
   const onPreview = async (file) => {
     let src = file.url;
@@ -139,7 +183,7 @@ export const CreatePage = () => {
         reader.readAsDataURL(file.originFileObj);
         reader.onload = () => {
           resolve(reader.result);
-        }
+        };
       });
     }
     const image = new Image();
@@ -156,14 +200,16 @@ export const CreatePage = () => {
           <Upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture-card"
-            fileList={fileList}
-            onChange={onChange}
+            fileList={avatarList}
+            onChange={onChangeAvatar}
             onPreview={onPreview}
           >
-            {fileList.length < 1 && "+ Загрузить"}
+            {avatarList.length < 1 && "+ Загрузить"}
           </Upload>
         </ImgCrop>
-        
+
+        <Divider />
+
         <p>Заповніть відомості про себе</p>
 
         <Input
@@ -207,14 +253,16 @@ export const CreatePage = () => {
             </Tooltip>
           }
         />
-        <br />
-        <br />
+        <Divider />
+
         <p>Напишіть коротко про себе</p>
         <TextArea
           rows={4}
           value={about}
           onChange={(e) => setAbout(e.target.value)}
         />
+
+        <Divider />
         <p>Виберіть свою професійну діяльність</p>
 
         <Checkbox.Group style={{ width: "100%" }}>
@@ -559,13 +607,28 @@ export const CreatePage = () => {
             </Col>
           </Row>
         </Checkbox.Group>
-        <br />
+        <Divider />
 
         <p>Вкажіть сертифікати якщо вони є</p>
-        {/* <Upload {...props}>
-            <Button icon={<UploadOutlined />}>Натисніть для загрузки</Button>
-        </Upload> */}
+        <Upload {...uploadFiles}>
+          <Button icon={<UploadOutlined />}>Натисніть для загрузки</Button>
+        </Upload>
 
+        <Divider />
+
+        <ImgCrop rotate>
+          <Upload
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            listType="picture-card"
+            fileList={workPhotoList}
+            onChange={onChangeWorkPhoto}
+            onPreview={onPreview}
+          >
+            {workPhotoList.length < 5 && "+ Upload"}
+          </Upload>
+        </ImgCrop>
+
+        <Divider />
         <Button type="primary" htmlType="submit" onClick={submitHandler}>
           Создать
         </Button>

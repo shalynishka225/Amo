@@ -18,6 +18,8 @@ router.post('/generate', auth, async (req, res) => {
         const { about } = req.body;
         const { checkTable } = req.body;
         const { avatar } = req.body;
+        const { files } = req.body;
+        const { workPhoto } = req.body;
 
         const existing = await Worker.findOne({ firstName });
 
@@ -28,7 +30,7 @@ router.post('/generate', auth, async (req, res) => {
         
 
         const worker = new Worker({
-            firstName, secondName, thirdName, checkTable, avatar, about, owner: req.user.userId
+            firstName, secondName, thirdName, checkTable, avatar, files, workPhoto, about, owner: req.user.userId
         });
 
         await worker.save();

@@ -8,7 +8,9 @@ const schema = new Schema({
     date: { type: Date, default: Date.now },
     owner: { type: Types.ObjectId, ref: 'User'},
     checkTable: {type: Array, default: ''},
-    avatar: { type: Object, default: '' }
+    avatar: { type: Object, default: '' },
+    workPhoto: { type: Array, default: ''},
+    files: { type: Array, default: ''}
 })  
 
 module.exports = model('Worker', schema, 'Worker');
