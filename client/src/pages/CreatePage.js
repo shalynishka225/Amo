@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { InfoCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import {
   Upload,
   Row,
@@ -9,12 +9,15 @@ import {
   Checkbox,
   Divider,
 } from "antd";
+import axios from 'axios';
 import ImgCrop from "antd-img-crop";
-import { InfoCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
+import React, { useState, useContext } from "react";
+import { useDropzone } from 'react-dropzone';
+import { useHistory } from "react-router-dom";
+
 import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context/AuthContext";
-import { useHistory } from "react-router-dom";
 
 const CLOUDINARY_UPLOAD_PRESET = "example";
 const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/alliance-climat";
@@ -93,9 +96,34 @@ export const CreatePage = () => {
   ]);
   const [avatarList, setAvatarList] = useState([]);
   const [file, setFile] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
   const [workPhotoList, setWorkPhotoList] = useState([]);
 
   const { request } = useHttp();
+
+  const onUploadFile = async (files) => {
+    const formData = new FormData();
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+    formData.append('file', files[0]);
+
+    const res = await axios.post(
+      "/api/upload",
+      formData,
+      config,
+    );
+
+    if (Boolean(res)) {
+      setUploadedFile(res.data)
+    }
+  }
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop: onUploadFile });
+
+  console.log(uploadedFile)
 
   const submitHandler = async () => {
     try {
@@ -197,7 +225,7 @@ export const CreatePage = () => {
       <Col span={6} offset={10} className="myClass">
         <p>Виберіть свою фотографію</p>
         <ImgCrop rotate>
-          <Upload
+          {/* <Upload
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             listType="picture-card"
             fileList={avatarList}
@@ -205,7 +233,11 @@ export const CreatePage = () => {
             onPreview={onPreview}
           >
             {avatarList.length < 1 && "+ Загрузить"}
-          </Upload>
+          </Upload> */}
+          {uploadedFile ? <img src={uploadedFile.url}/> : <div {...getRootProps()}>
+            lkjkdfjkalfl;wqkfkl;qwe
+            <input {...getInputProps()}/>
+          </div>}
         </ImgCrop>
 
         <Divider />

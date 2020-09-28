@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('config');
 const mongoose = require('mongoose');
+const formidable = require('express-formidable');
 const Auth = require('./modules/auth/auth.routes');
 const Worker = require('./modules/worker/worker.routes');
 const { cloudinary } = require('./utils/cloudinary');
@@ -41,14 +42,13 @@ app.get('/api/images', async (req,res) => {
     res.send(publicIds)
 })
 
-app.post('/api/upload', async (req,res) => {
+app.post('/api/upload', formidable(), async (req, res) => {
     try {
-        const fileStr = req.body.data
-        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+        const uploadedResponse = await cloudinary.uploader.upload(req.files.file.path, {
             upload_preset: 'example'
         })
         console.log(uploadedResponse)
-        res.json({ msg: 'Cool' })
+        res.json({ url: uploadedResponse.secure_url })
     } catch (error) {
         console.error(error)
         res.status(500).json({ err: 'Something went wrong' })
