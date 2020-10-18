@@ -5,6 +5,7 @@ const formidable = require('express-formidable');
 const Auth = require('./modules/auth/auth.routes');
 const Worker = require('./modules/worker/worker.routes');
 const { cloudinary } = require('./utils/cloudinary');
+const { json } = require('express');
 //import { registerRestEndpoints } from './routes';
 
 const app = express();
@@ -24,6 +25,7 @@ async function start() {
             useUnifiedTopology: true,
             useCreateIndex: true
         })
+        console.log(mongoose.models.Worker)
         app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
     } catch (e) {
         console.log('Server Error', e.message);
@@ -31,27 +33,35 @@ async function start() {
     }
 }
 
-app.get('/api/images', async (req,res) => {
-    const { resources } = await cloudinary.search.expression
-    ('folder:example')
-    .sort_by('public_id', 'desc')
-    .max_results(30)
-    .execute()
 
-    const publicIds = resources.map( file => file.public_id)
-    res.send(publicIds)
-})
-
-app.post('/api/upload', formidable(), async (req, res) => {
+app.post('/api/upload/works', formidable(), async (req, res) => {
     try {
-        const uploadedResponse = await cloudinary.uploader.upload(req.files.file.path, {
-            upload_preset: 'example'
-        })
-        console.log(uploadedResponse)
-        res.json({ url: uploadedResponse.secure_url })
+        const uploadWorksFiles = await Promise.all(Object.values(req.files).map((file) => cloudinary.uploader.upload(file.path, { upload_preset: 'example' })))
+        res.json(uploadWorksFiles)
     } catch (error) {
         console.error(error)
-        res.status(500).json({ err: 'Something went wrong' })
+        res.status(500).json({ err: 'Произошла ошибка в загрузке фотографий' })
+    }
+})
+
+app.post('/api/upload/certificates', formidable(), async (req, res) => {
+    try {
+        const uploadWorksFiles = await Promise.all(Object.values(req.files).map((file) => cloudinary.uploader.upload(file.path, { eager: [
+            { flags: 'attachment:my_pdf'}], upload_preset: 'example'})))
+        console.log(uploadWorksFiles[0].eager)
+        res.json(uploadWorksFiles)
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ err: 'Произошла ошибка в загрзуке файлов' })
+    }
+})
+
+app.post('/api/upload/avatar', formidable(), async (req, res) => {
+    try {
+       const uploadedResponce = await cloudinary.uploader.upload(req.files.avatar.path, {upload_preset: 'example'})
+       res.json(uploadedResponce)
+    } catch (error) {
+        console.log(error)
     }
 })
 

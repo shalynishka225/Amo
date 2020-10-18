@@ -1,15 +1,16 @@
 const Worker = require('./worker.model');
 
 class WorkerController {
-  async generate(data) {
+  static async generate(data) {
     try {
       const worker = await Worker.create(data);
-      
       return worker;
     } catch (e) {
-      return new Error("Что-то пошло не так. Попробуйте снова");
+      console.log(e)
     }
   }
+
+
 }
 
 module.exports = WorkerController; 

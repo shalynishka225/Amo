@@ -1,62 +1,54 @@
 const { Router } = require('express');
-//const WorkerController = require('./worker.controller');
+const WorkerController = require('./worker.controller');
 const Worker = require('../worker/worker.model');
 const auth = require('../auth/auth.middleware');
 
 
 const router = Router();
 
-// router.post('/generate', auth, async (req, res) => {
-//   return res.json(await WorkerController.generate(req.body));
-// })
 
 router.post('/generate', auth, async (req, res) => {
-    try {
-        const { firstName } = req.body;
-        const { secondName } = req.body;
-        const { thirdName } = req.body;
-        const { about } = req.body;
-        const { checkTable } = req.body;
-        const { avatar } = req.body;
-        const { files } = req.body;
-        const { workPhoto } = req.body;
-
-        const existing = await Worker.findOne({ firstName });
-
-        if (existing) {
-            return res.json({ worker: existing})
-        }
-
-        
-
-        const worker = new Worker({
-            firstName, secondName, thirdName, checkTable, avatar, files, workPhoto, about, owner: req.user.userId
-        });
-
-        await worker.save();
-        res.status(201).json({ worker });
-
-    } catch (e) {
-        res.status(500).json({ message: "Что-то пошло не так. Попробуйте снова" });
-    }
+  try {
+    return res.json(await WorkerController.generate(req.body));
+  } catch (error) {
+    console.log(error)
+  }
 })
+  
+
 
 router.get('/', auth, async (req, res) => {
     try {
-      const workers = await Worker.find({ owner: req.user.userId })
+      const workers = await Worker.find()
       res.json(workers)
     } catch (e) {
-      res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+      console.log(e)
     }
   })
 
+
+router.get('/my', auth, async (req, res) =>{
+  try {
+    console.log(req.user)
+    const workers = await Worker.find({ owner: req.user.userId })
+    //console.log(res)
+    res.json(workers)
+  } catch (e) {
+    console.log(e)
+  }
+})
+
 router.get('/:id', auth, async (req, res) => {
-    try {
-      const worker = await Worker.findById(req.params.id)
-      res.json(worker)
-    } catch (e) {
-      res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
-    }
-  })
+  try {
+    const worker = await Worker.findById(req.params.id)
+    res.json(worker)
+  } catch (e) {
+    res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
+  }
+})
+
+
+
+
 
 module.exports = router;

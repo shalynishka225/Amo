@@ -4,6 +4,7 @@ import { WorkersPage } from './pages/WorkersPage';
 import { CreatePage }  from './pages/CreatePage';
 import { DetailPage } from './pages/DetailPage';
 import { AuthPage } from './pages/AuthPage';
+import { MyPage } from './pages/MyPage';
 
 
 export const useRoutes = isAuthenticated => {
@@ -15,6 +16,9 @@ export const useRoutes = isAuthenticated => {
                 </Route>
                 <Route path="/create" exact>
                     <CreatePage></CreatePage>
+                </Route>
+                <Route path='/workers/my' exact>
+                    <MyPage></MyPage>
                 </Route>
                 <Route path="/detail/:id" exact>
                     <DetailPage></DetailPage>

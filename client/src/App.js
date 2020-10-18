@@ -27,7 +27,7 @@ function App() {
     { isAuthenticated && <Navbar /> }
       <Layout>
     <Content className="site-layout container" style={{ padding: '0 50px', marginTop: 64 }}>
-      <div className="site-layout-background" style={{ padding: 24, minHeight: 380 }}>
+      <div className="site-layout-background" style={{ padding: 0, minHeight: 380 }}>
         <h1>{ routes }</h1>
       </div>
     </Content>

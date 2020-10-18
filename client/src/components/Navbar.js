@@ -24,7 +24,10 @@ export const Navbar = () => {
         <Menu.Item key="2">
           <NavLink to="/workers">Работники</NavLink>
         </Menu.Item>
-        <Menu.Item key="3">
+        <Menu.Item key='3'>
+          <NavLink to="/workers/my">Моя анкета</NavLink>
+        </Menu.Item>
+        <Menu.Item key="4">
           <a href="/" onClick={logoutHandler}>
             Выйти
           </a>

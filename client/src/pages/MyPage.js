@@ -4,18 +4,17 @@ import { AuthContext } from '../context/AuthContext';
 import { Loader } from '../components/Loader';
 import { WorkersList } from '../components/WorkersList';
 
-export const WorkersPage = () => {
+export const MyPage = () => {
 
     const {token} = useContext(AuthContext);
     const {request, loading} = useHttp();
-    const [workers, setWorkers] = useState([]);
+    const [workers, setWorkers] = useState(['']);
     
     const fetchWorkers = useCallback(async () => {
       try {
-        const fetched = await request('/api/worker', 'GET', null, {
+        const fetched = await request('/api/worker/my', 'GET', null, {
           Authorization: `Bearer ${token}`
         })
-       
         setWorkers(fetched)
       } catch (e) {}
     }, [token, request])
@@ -28,11 +27,10 @@ export const WorkersPage = () => {
       return <Loader/>
     }
 
-    
 
     return (
       <>
         {!loading && <WorkersList workers={workers} />}
       </>
     )
-  }
+}

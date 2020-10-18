@@ -1,58 +1,35 @@
-import React from "react";
-import { Card, Avatar } from "antd";
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Layout } from "antd";
+import { SiderMenu } from "./UI/SiderMenu";
+import { CardList } from "./UI/CardList";
+import { Loader } from "./Loader";
+
+const { Content } = Layout;
 
 export const WorkersList = ({ workers }) => {
-  const { Meta } = Card;
+  const [searchWorkers, setSearchWorkers] = useState('');
 
   if (!workers.length) {
-    return <p>Анкет пока нет</p>;
+    return <Loader />;
   }
 
   return (
-    <div>
-      {workers.map((worker, index) => {
-        return (
-          <Card
-            key={index}
-            style={{ width: 300 }}
-            cover={
-              <img
-                alt="example"
-                src={worker.avatar}
-              />
-            }
-            actions={[
-              <SettingOutlined key="setting" />,
-              <EditOutlined key="edit" />,
-              <Link to={`/detail/${worker._id}`}>
-                <EllipsisOutlined key="ellipsis" />
-              </Link>,
-            ]}
+    <Layout>
+      <SiderMenu state={setSearchWorkers} />
+      <Layout className="site-layout" style={{ marginLeft: 200 }}>
+        <Content style={{ overflow: "initial" }}>
+          <div
+            className="site-layout-background"
+            style={{ padding: 24, textAlign: "center" }}
           >
-            <Meta
-              avatar={
-                <Avatar src= {worker.avatar} />
-              }
-              title={
-                worker.firstName +
-                " " +
-                worker.secondName +
-                " " +
-                worker.thirdName
-              }
-              description={
-                "на сайте с " + new Date(worker.date).toLocaleDateString()
-              }
-            />
-          </Card>
-        );
-      })}
-    </div>
+            <div className="site-card-wrapper">
+              { workers.length
+              ? <CardList state={workers} search={searchWorkers} /> 
+              : <Loader />}
+            </div>
+          </div>
+        </Content>
+      </Layout>
+    </Layout>
   );
 };

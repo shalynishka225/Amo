@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Row, Col, Card, Button, Input, Space, notification } from "antd";
+import { Row, Col, Card, Button, Input, Space, message } from "antd";
 import { UserOutlined, EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context/AuthContext";
@@ -8,14 +8,6 @@ import { AuthContext } from "../context/AuthContext";
 
 export const AuthPage = () => {
     const auth = useContext(AuthContext);
-    const openNotification = (message, error) => {
-        notification.open({
-          message: message,
-          description: error,
-        });
-      };
-    
-    
     const { loading, request, error, clearError } = useHttp();
 
     const [form, setForm] = useState({
@@ -25,7 +17,7 @@ export const AuthPage = () => {
     useEffect(() => {
         
         if(error) {
-            openNotification('Ошибка',error);
+            message.error(error);
             clearError();
         };
         
@@ -42,7 +34,7 @@ export const AuthPage = () => {
     const registerHandler = async () => {
         try {
             const data = await request('/api/auth/register', 'POST', {...form});
-            openNotification('Регистрация прошла успешно',data.message);
+            message.success(data.message) ;
         } catch (e) {
             
         }
@@ -52,7 +44,7 @@ export const AuthPage = () => {
         try {
             const data = await request('/api/auth/login', 'POST', {...form});
             auth.login(data.token, data.userId);
-            openNotification('Вход выполнен успешно',data.message);
+            message.success('Вход выполнен успешно') ;
         } catch (e) {
             
         }

@@ -1,26 +1,21 @@
-import { InfoCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import {
-  Upload,
   Row,
   Col,
-  Input,
-  Tooltip,
   Button,
   Checkbox,
-  Divider,
+  Divider
 } from "antd";
-import axios from 'axios';
-import ImgCrop from "antd-img-crop";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useState, useContext } from "react";
-import { useDropzone } from 'react-dropzone';
 import { useHistory } from "react-router-dom";
-
 import { useHttp } from "../hooks/http.hook";
 import { AuthContext } from "../context/AuthContext";
-
-const CLOUDINARY_UPLOAD_PRESET = "example";
-const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/alliance-climat";
+import { UploadAvatar } from "../components/UI/UploadAvatar";
+import { UploadWorksList } from "../components/UI/UploadWorksList";
+import Axios from "axios";
+import { UploadCertificates } from "../components/UI/UploadCertificates";
+import { SelectRegion } from "../components/UI/SelectRegion";
+import { InputWithProps } from "../components/UI/InputWithProps";
 
 export const CreatePage = () => {
   const history = useHistory();
@@ -32,7 +27,7 @@ export const CreatePage = () => {
   const [checkTable, setCheckTable] = useState([
     {
       key: "1",
-      work: "Побутові",
+      work: "Бытовые кондиционеры",
       mounting: false,
       diagnostics: false,
       service: false,
@@ -94,197 +89,132 @@ export const CreatePage = () => {
       service: false,
     },
   ]);
-  const [avatarList, setAvatarList] = useState([]);
-  const [file, setFile] = useState("");
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [workPhotoList, setWorkPhotoList] = useState([]);
-
-  const { request } = useHttp();
-
-  const onUploadFile = async (files) => {
-    const formData = new FormData();
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-    };
-    formData.append('file', files[0]);
-
-    const res = await axios.post(
-      "/api/upload",
-      formData,
-      config,
-    );
-
-    if (Boolean(res)) {
-      setUploadedFile(res.data)
-    }
-  }
-
-  const { getRootProps, getInputProps } = useDropzone({ onDrop: onUploadFile });
-
-  console.log(uploadedFile)
+  const [uploadedAvatar, setUploadedAvatar] = useState(null);
+  const [uploadedWorksFile, setUploadedWorksFile] = useState([]);
+  const [uploadCertificates, setUploadCertificates] = useState([]);
+ // const [loading, setLoading] = useState(false);
+  
+  const { loading } = useHttp();
 
   const submitHandler = async () => {
     try {
-      const data = await request(
-        "/api/worker/generate",
-        "POST",
-        {
-          firstName: firstName,
-          secondName: secondName,
-          thirdName: thirdName,
-          about: about,
-          checkTable: checkTable,
-          avatar: avatarList[0].thumbUrl,
-          //workPhoto: workPhotoList,
-          files: file,
-        },
-        {
-          Authorization: `Bearer ${auth.token}`,
-        }
-      );
-      if (!avatarList[0].thumbUrl) return;
-      console.log(workPhotoList);
-      uploadImage(avatarList[0].thumbUrl);
-      workPhotoList.map((photo,key) => {
-       uploadImage(photo.thumbUrl)
-      })
-      history.push(`/detail/${data.worker._id}`);
-    } catch (e) {}
-  };
-
-  const uploadImage = async (base64EncodedImage) => {
-    //console.log(base64EncodedImage);
-    try {
-      await fetch("/api/upload", {
-        method: "POST",
-        body: JSON.stringify({ data: base64EncodedImage }),
-        headers: { "Content-type": "application/json" },
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const uploadFiles = {
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    onChange({ file, fileList }) {
-      if (file.status !== "Загрузка") {
-        setFile(fileList);
-      }
-    },
-  };
-
-  // const uploadFileHandler = (file) => {
-  //   const formData = new FormData();
-  //       formData.append('file', file);
-  //       formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-
-  //       axios({
-  //         url: CLOUDINARY_URL,
-  //         method: "POST",
-  //         headers: {
-  //           'Content-Type' : 'application/x-www-form-urlencoded'
-  //         },
-  //         data: formData
-  //       }).then(function(res) {
-  //         console.log(res)
-  //       }).catch(function(err) {
-  //         console.log(err)
-  //       })
-  // }
-
-  const onChangeAvatar = ({ fileList: newFileList }) => {
-    setAvatarList(newFileList);
-  };
-
-  const onChangeWorkPhoto = ({fileList: newFileList}) => {
-    setWorkPhotoList(newFileList);
-  }
-
-  const onPreview = async (file) => {
-    let src = file.url;
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-        reader.onload = () => {
-          resolve(reader.result);
+      console.log('loading:' + loading)
+      let updateWorks = []
+      const formData = new FormData();
+        const config = {
+          onUploadProgress : (progressEvent) => {
+            //const {loaded, total} = progressEvent;
+            //let percent = Math.floor( loaded * 100 / total );
+          },
+          headers: {
+            "content-type": "multipart/form-data",
+          }
         };
-      });
+
+        uploadedWorksFile.forEach((item,index) => {
+          formData.append(`file${index}`, item)
+        })
+
+        const res = await Axios.post("/api/upload/works", formData, config);
+
+        
+        if (Boolean(res)) { res.data.map(file => updateWorks.push(file.secure_url)) }
+
+
+        let updateFiles = []
+        const formDataCertificates = new FormData();
+        const configCertificates = {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        };
+
+        
+        uploadCertificates.forEach((item,index) => {
+          formDataCertificates.append(`file${index}`, item)
+        })
+
+        const resFiles = await Axios.post("/api/upload/certificates", formDataCertificates, configCertificates);
+        //console.log(resFiles.data[0])
+        
+        if (Boolean(resFiles)) { resFiles.data.map(file => updateFiles.push(file.public_id)) }
+
+        let updateAvatar = uploadedAvatar[0]
+        const formDataAvatar = new FormData()
+        formDataAvatar.append('avatar', updateAvatar)
+        const configAvatar = {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        };
+        const resAvatar = await Axios.post('/api/upload/avatar', formDataAvatar, configAvatar)
+        
+        if(Boolean(resAvatar)) { updateAvatar = resAvatar.data.secure_url }
+
+        const configData = {
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+          }
+        };
+
+        const data = await Axios.post('/api/worker/generate', {
+              firstName: firstName,
+              secondName: secondName,
+              thirdName: thirdName,
+              about: about,
+              checkTable: checkTable,
+              avatar: updateAvatar,
+              workPhoto: updateWorks,
+              certificates: updateFiles,
+            },
+            configData
+        )
+    
+        console.log(data.data)
+      history.push(`/detail/${data.data._id}`);
+    } catch (e) {
+      console.log(e)
     }
-    const image = new Image();
-    image.src = src;
-    const imgWindow = window.open(src);
-    imgWindow.document.write(image.outerHTML);
   };
 
   return (
-    <Row>
-      <Col span={6} offset={10} className="myClass">
-        <p>Виберіть свою фотографію</p>
-        <ImgCrop rotate>
-          {/* <Upload
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            listType="picture-card"
-            fileList={avatarList}
-            onChange={onChangeAvatar}
-            onPreview={onPreview}
-          >
-            {avatarList.length < 1 && "+ Загрузить"}
-          </Upload> */}
-          {uploadedFile ? <img src={uploadedFile.url}/> : <div {...getRootProps()}>
-            lkjkdfjkalfl;wqkfkl;qwe
-            <input {...getInputProps()}/>
-          </div>}
-        </ImgCrop>
-
-        <Divider />
+    <Row style={{justifyContent:'center'}}>
+      
+      <Col span={12} >
+        <UploadAvatar 
+          uploadedFile={uploadedAvatar}
+          state={setUploadedAvatar}
+        />
+        
 
         <p>Заповніть відомості про себе</p>
 
-        <Input
-          placeholder="Ім'я"
-          name="firstName"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+        <InputWithProps 
+          title="Введіть ваше ім'я"
           id="firstName"
-          type="text"
-          suffix={
-            <Tooltip title="Введіть ваше ім'я">
-              <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
-            </Tooltip>
-          }
+          placeholder="Ім'я"
+          name={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
         />
 
-        <Input
-          placeholder="Прізвище"
-          name="secondName"
+        <InputWithProps 
+          title="Введіть ваше прізвище"
           id="secondName"
-          type="text"
-          value={secondName}
+          placeholder="Прізвище"
+          name={secondName}
           onChange={(e) => setSecondName(e.target.value)}
-          suffix={
-            <Tooltip title="Введіть ваше прізвище">
-              <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
-            </Tooltip>
-          }
         />
 
-        <Input
-          placeholder="по-батькові"
-          name="thirdName"
+        <InputWithProps 
+          title="По-батькові"
           id="thirdName"
-          type="text"
-          value={thirdName}
+          placeholder="по-батькові"
+          name={thirdName}
           onChange={(e) => setThirdName(e.target.value)}
-          suffix={
-            <Tooltip title="Введіть ваше по-батькові">
-              <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
-            </Tooltip>
-          }
         />
+
+        <SelectRegion />
         <Divider />
 
         <p>Напишіть коротко про себе</p>
@@ -296,371 +226,79 @@ export const CreatePage = () => {
 
         <Divider />
         <p>Виберіть свою професійну діяльність</p>
-
-        <Checkbox.Group style={{ width: "100%" }}>
+        <Checkbox.Group>
           <h3>Монтаж:</h3>
-          <Row>
-            <Col>
-              <Checkbox
-                value="M-1"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[0].mounting = "<CheckCircleOutlined />";
-                  setCheckTable(changedArray);
-                }}
-              >
-                бытовые кондиционеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="M-2"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[1].mounting = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                полупромышленные кондиционеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="M-3"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[2].mounting = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                промышленные кондиционеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="M-4"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[3].mounting = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                ККБ
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="M-5"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[4].mounting = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                вентиляция
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="M-6"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[5].mounting = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                тепловые насосы
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="M-7"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[6].mounting = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                системы отопления
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="M-8"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[7].mounting = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                бойлеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="M-9"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[8].mounting = e.target.checked;
-                  setCheckTable(changedArray);
-                  console.log(checkTable);
-                }}
-              >
-                газовые колонки, котлы
-              </Checkbox>
-            </Col>
-          </Row>
+          {checkTable.map((checkbox, index) => {
+            return (
+              <Col key={index}>
+                <Checkbox
+                  value={"M-" + index + 1}
+                  onClick={(e) => {
+                    let changedArray = checkTable;
+                    changedArray[index].mounting = e.target.checked
+                    setCheckTable(changedArray);
+                  }}
+                >
+                  {checkbox.work}
+                </Checkbox>
+              </Col>
+            );
+          })}
         </Checkbox.Group>
-        <Divider />
-        <Checkbox.Group style={{ width: "100%" }}>
-          <h3>диагностика поломок и ремонт:</h3>
-          <Row>
-            <Col>
-              <Checkbox
-                value="D-1"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[0].diagnostics = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                бытовые кондиционеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="D-2"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[1].diagnostics = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                полупромышленные кондиционеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="D-3"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[2].diagnostics = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                промышленные кондиционеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="D-4"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[3].diagnostics = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                ККБ
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="D-5"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[4].diagnostics = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                вентиляция
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="D-6"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[5].diagnostics = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                тепловые насосы
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="D-7"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[6].diagnostics = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                системы отопления
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="D-8"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[7].diagnostics = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                бойлеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="D-9"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[8].diagnostics = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                газовые колонки, котлы
-              </Checkbox>
-            </Col>
-          </Row>
+
+        <Checkbox.Group>
+          <h3>Диагностика поломок и ремонт:</h3>
+          {checkTable.map((checkbox, index) => {
+            return (
+              <Col key={index}>
+                <Checkbox
+                  value={"D-" + index + 1}
+                  onClick={(e) => {
+                    let changedArray = checkTable;
+                    changedArray[index].diagnostics = e.target.checked;
+                    setCheckTable(changedArray);
+                  }}
+                >
+                  {checkbox.work}
+                </Checkbox>
+              </Col>
+            );
+          })}
         </Checkbox.Group>
-        <Divider />
-        <Checkbox.Group style={{ width: "100%" }}>
-          <h3>сервисное обслуживание:</h3>
-          <Row>
-            <Col>
-              <Checkbox
-                value="S-1"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[0].service = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                бытовые кондиционеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="S-2"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[1].service = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                полупромышленные кондиционеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="S-3"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[2].service = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                промышленные кондиционеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="S-4"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[3].service = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                ККБ
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="S-5"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[4].service = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                вентиляция
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="S-6"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[5].service = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                тепловые насосы
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="S-7"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[6].service = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                системы отопления
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="S-8"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[7].service = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                бойлеры
-              </Checkbox>
-            </Col>
-            <Col>
-              <Checkbox
-                value="S-9"
-                onClick={(e) => {
-                  let changedArray = checkTable;
-                  changedArray[8].service = e.target.checked;
-                  setCheckTable(changedArray);
-                }}
-              >
-                газовые колонки, котлы
-              </Checkbox>
-            </Col>
-          </Row>
+
+        <Checkbox.Group>
+          <h3>Сервисное обслуживание:</h3>
+          {checkTable.map((checkbox, index) => {
+            return (
+              <Col key={index}>
+                <Checkbox
+                  value={"S-" + index + 1}
+                  onClick={(e) => {
+                    let changedArray = checkTable;
+                    changedArray[index].service = e.target.checked;
+                    setCheckTable(changedArray);
+                  }}
+                >
+                  {checkbox.work}
+                </Checkbox>
+              </Col>
+            );
+          })}
         </Checkbox.Group>
         <Divider />
 
         <p>Вкажіть сертифікати якщо вони є</p>
-        <Upload {...uploadFiles}>
-          <Button icon={<UploadOutlined />}>Натисніть для загрузки</Button>
-        </Upload>
+        < UploadCertificates 
+          state={setUploadCertificates}
+        />
+        <p>Завантажте приклади робіт</p>
+        < UploadWorksList 
+          state={setUploadedWorksFile}
+        />
+
 
         <Divider />
 
-        <ImgCrop rotate>
-          <Upload
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            listType="picture-card"
-            fileList={workPhotoList}
-            onChange={onChangeWorkPhoto}
-            onPreview={onPreview}
-          >
-            {workPhotoList.length < 5 && "+ Upload"}
-          </Upload>
-        </ImgCrop>
-
-        <Divider />
         <Button type="primary" htmlType="submit" onClick={submitHandler}>
           Создать
         </Button>
@@ -668,11 +306,3 @@ export const CreatePage = () => {
     </Row>
   );
 };
-
-// export const CreatePage = () => {
-//     const [ worker, setWorker ] = useState('');
-
-//     return (
-
-//     )
-// }

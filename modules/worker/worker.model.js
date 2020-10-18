@@ -10,7 +10,7 @@ const schema = new Schema({
     checkTable: {type: Array, default: ''},
     avatar: { type: Object, default: '' },
     workPhoto: { type: Array, default: ''},
-    files: { type: Array, default: ''}
+    certificates: { type: Array, default: ''}
 })  
 
 module.exports = model('Worker', schema, 'Worker');
