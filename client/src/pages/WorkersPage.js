@@ -5,34 +5,27 @@ import { Loader } from '../components/Loader';
 import { WorkersList } from '../components/WorkersList';
 
 export const WorkersPage = () => {
+  const { token } = useContext(AuthContext);
+  const { request, loading } = useHttp();
+  const [workers, setWorkers] = useState([]);
 
-    const {token} = useContext(AuthContext);
-    const {request, loading} = useHttp();
-    const [workers, setWorkers] = useState([]);
-    
-    const fetchWorkers = useCallback(async () => {
-      try {
-        const fetched = await request('/api/worker', 'GET', null, {
-          Authorization: `Bearer ${token}`
-        })
-       
-        setWorkers(fetched)
-      } catch (e) {}
-    }, [token, request])
-  
-    useEffect(() => {
-    fetchWorkers()
-    }, [fetchWorkers])
-  
-    if (loading) {
-      return <Loader/>
-    }
+  const fetchWorkers = useCallback(async () => {
+    try {
+      const fetched = await request('/api/worker', 'GET', null, {
+        Authorization: `Bearer ${token}`,
+      });
 
-    
+      setWorkers(fetched);
+    } catch (e) {}
+  }, [token, request]);
 
-    return (
-      <>
-        {!loading && <WorkersList workers={workers} />}
-      </>
-    )
+  useEffect(() => {
+    fetchWorkers();
+  }, [fetchWorkers]);
+
+  if (loading) {
+    return <Loader />;
   }
+
+  return <>{!loading && <WorkersList workers={workers} />}</>;
+};
