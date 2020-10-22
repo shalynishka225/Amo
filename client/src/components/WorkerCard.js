@@ -1,53 +1,48 @@
-import React from "react";
-import { Table } from "antd";
-import { Image } from "cloudinary-react";
-import Transformation from "cloudinary-react/lib/components/Transformation";
-import CloudinaryContext from "cloudinary-react/lib/components/CloudinaryContext";
-import { CheckCircleOutlined } from "@ant-design/icons";
+import React from 'react';
+import { Table } from 'antd';
+import { Image } from 'cloudinary-react';
+import Transformation from 'cloudinary-react/lib/components/Transformation';
+import CloudinaryContext from 'cloudinary-react/lib/components/CloudinaryContext';
+import { CheckCircleOutlined } from '@ant-design/icons';
 
 const columns = [
   {
-    title: "Види робіт",
-    dataIndex: "work",
+    title: 'Види робіт',
+    dataIndex: 'work',
     width: 100,
   },
   {
-    title: "Монтаж",
-    dataIndex: "mounting",
-    key: "mounting",
+    title: 'Монтаж',
+    dataIndex: 'mounting',
+    key: 'mounting',
     width: 100,
   },
   {
-    title: "Діагностика поломок, ремонт",
-    dataIndex: "diagnostics",
-    key: "diagnostics",
+    title: 'Діагностика поломок, ремонт',
+    dataIndex: 'diagnostics',
+    key: 'diagnostics',
     width: 100,
   },
   {
-    title: "Сервісне обслуговування",
-    dataIndex: "service",
-    key: "service",
+    title: 'Сервісне обслуговування',
+    dataIndex: 'service',
+    key: 'service',
     width: 100,
   },
 ];
 
-
-
 export const WorkerCard = ({ worker }) => {
-  
-  
-  worker.checkTable.map(item => {
-    if(item.service) {
-      item.service = <CheckCircleOutlined />
+  worker.checkTable.map((item) => {
+    if (item.service) {
+      item.service = <CheckCircleOutlined />;
     }
-    if(item.mounting) {
-      item.mounting = <CheckCircleOutlined />
+    if (item.mounting) {
+      item.mounting = <CheckCircleOutlined />;
     }
-    if(item.diagnostics) {
-      item.diagnostics = <CheckCircleOutlined />
+    if (item.diagnostics) {
+      item.diagnostics = <CheckCircleOutlined />;
     }
-  })
-
+  });
 
   return (
     <>
@@ -60,23 +55,13 @@ export const WorkerCard = ({ worker }) => {
         <article> {worker.about} </article>
 
         <div>
-        <CloudinaryContext cloudName="alliance-climat">
-        <Image
-              src={worker.avatar}
-              width="300"
-              crop="scale"
-              alt="avatar"
-            >
-              <Transformation
-                crop="thumb"
-              />
-          </Image>
+          <CloudinaryContext cloudName="alliance-climat">
+            <Image src={worker.avatar} width="300" crop="scale" alt="avatar">
+              <Transformation crop="thumb" />
+            </Image>
           </CloudinaryContext>
 
-          
           <CloudinaryContext cloudName="alliance-climat">
-            
-
             {worker.certificates.map((file, index) => {
               return (
                 <Image publicId={file} key={index} style={{ margin: 10 }}>
@@ -91,12 +76,18 @@ export const WorkerCard = ({ worker }) => {
             })}
           </CloudinaryContext>
         </div>
-        <Table columns={columns} dataSource={worker.checkTable} pagination={false} table-layout='fixed' bordered />
-        <div className="gallery" style={{margin: '0 auto', width: '100%'}}>
+        <Table
+          columns={columns}
+          dataSource={worker.checkTable}
+          pagination={false}
+          table-layout="fixed"
+          bordered
+        />
+        <div className="gallery" style={{ margin: '0 auto', width: '100%' }}>
           {worker.workPhoto &&
             worker.workPhoto.map((image, index) => (
               <Image
-                style={{margin: '10px'}}
+                style={{ margin: '10px' }}
                 key={index}
                 cloudName="alliance-climat"
                 src={image}

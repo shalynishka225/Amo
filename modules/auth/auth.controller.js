@@ -1,10 +1,9 @@
-const  User = require('./auth.model');
+const User = require('./auth.model');
 
-  class AuthController {
+class AuthController {
   async signup(data) {
-    return await User.create(data)
+    return await User.create(data);
   }
 }
 
 module.exports = AuthController;
-

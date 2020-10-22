@@ -1,33 +1,33 @@
-import React, { useState } from "react";
-import { Button, message } from "antd";
-import { CloudUploadOutlined, UploadOutlined } from "@ant-design/icons";
-import { useDropzone } from "react-dropzone";
+import React, { useState } from 'react';
+import { Button, message } from 'antd';
+import { CloudUploadOutlined, UploadOutlined } from '@ant-design/icons';
+import { useDropzone } from 'react-dropzone';
 
 export const UploadCertificates = (props) => {
   const [uploadFiles, setUploadFiles] = useState([]);
 
   const onDrop = async (files) => {
     const updateFiles = [...uploadFiles, files[0]];
-    
+
     try {
       const isLt2M = files[0].size / 1024 / 1024 < 2;
       if (
-        files[0].type === "image/jpeg" ||
-        files[0].type === "image/png" ||
-        files[0].type === "application/pdf" ||
+        files[0].type === 'image/jpeg' ||
+        files[0].type === 'image/png' ||
+        files[0].type === 'application/pdf' ||
         files[0].type ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       ) {
         if (isLt2M) {
           message.success(`${files[0].name}: загружен успешно`);
-          setUploadFiles(updateFiles)
+          setUploadFiles(updateFiles);
           props.state(updateFiles);
         } else {
-          message.error("Файл должен быть меньше 2Mb");
+          message.error('Файл должен быть меньше 2Mb');
         }
       } else {
         message.error(
-          "Вы можете загрузить только .pdf/ .docx / .doc / .png / .jpeg"
+          'Вы можете загрузить только .pdf/ .docx / .doc / .png / .jpeg'
         );
       }
     } catch (error) {
@@ -42,7 +42,7 @@ export const UploadCertificates = (props) => {
   const deleteHandler = (index) => {
     const arr = uploadFiles.slice();
     arr.splice(index, 1);
-    message.success('файл успешно удалён')
+    message.success('файл успешно удалён');
     setUploadFiles(arr);
     props.state(arr);
   };
@@ -50,7 +50,11 @@ export const UploadCertificates = (props) => {
   return (
     <div>
       <div {...getRootProps()} className="ant-upload-list ant-upload-list-text">
-        <input icon={<UploadOutlined />} {...getInputProps()} accept="application/pdf"/>
+        <input
+          icon={<UploadOutlined />}
+          {...getInputProps()}
+          accept="application/pdf"
+        />
         {uploadFiles.length < 5 && (
           <Button icon={<CloudUploadOutlined />}>Загрузить</Button>
         )}
@@ -58,7 +62,6 @@ export const UploadCertificates = (props) => {
       {uploadFiles ? (
         <span>
           {uploadFiles.map((item, index) => {
-
             return (
               <div className="ant-upload-list ant-upload-list-text" key={index}>
                 <div className="">

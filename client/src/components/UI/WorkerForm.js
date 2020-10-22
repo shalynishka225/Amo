@@ -4,7 +4,6 @@ import Avatar from 'antd/lib/avatar/avatar';
 import Meta from 'antd/lib/card/Meta';
 import React from 'react';
 import QRCode from 'react-qr-code/lib/components/QRCode';
-import { Link } from 'react-router-dom';
 
 export const WorkerForm = (props) => {
   return props.state.map((worker, index) => {

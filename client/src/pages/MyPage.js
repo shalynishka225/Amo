@@ -3,6 +3,7 @@ import { useHttp } from '../hooks/http.hook';
 import { AuthContext } from '../context/AuthContext';
 import { Loader } from '../components/Loader';
 import { WorkerForm } from '../components/UI/WorkerForm';
+import { Button, Empty } from 'antd';
 
 export const MyPage = () => {
   const { token } = useContext(AuthContext);
@@ -28,7 +29,21 @@ export const MyPage = () => {
 
   return (
     <>
-      {workers.length ? <WorkerForm state={workers} /> : <p>Нет ваших анкет</p>}
+      {workers.length ? (
+        <WorkerForm state={workers} />
+      ) : (
+        <Empty
+          image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+          imageStyle={{
+            height: 60,
+          }}
+          description={<span>Нет созданых анкет</span>}
+        >
+          <Button type="primary" href="/create">
+            Создать сейчас
+          </Button>
+        </Empty>
+      )}
     </>
   );
 };

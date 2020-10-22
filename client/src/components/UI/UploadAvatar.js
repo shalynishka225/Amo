@@ -1,6 +1,6 @@
-import { Divider, message } from "antd";
-import React, { useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { Divider, message } from 'antd';
+import React, { useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 
 export const UploadAvatar = (props) => {
   const [uploadFiles, setUploadFiles] = useState([]);
@@ -11,17 +11,17 @@ export const UploadAvatar = (props) => {
 
     try {
       const isLt2M = files[0].size / 1024 / 1024 < 2;
-      if (files[0].type === "image/jpeg" || files[0].type === "image/png") {
+      if (files[0].type === 'image/jpeg' || files[0].type === 'image/png') {
         if (isLt2M) {
           previewFile(files[0]);
           message.success(`${files[0].name}: загружен успешно`);
           setUploadFiles(updateFiles);
           props.state(updateFiles);
         } else {
-          message.error("Файл должен быть меньше 2Mb");
+          message.error('Файл должен быть меньше 2Mb');
         }
       } else {
-        message.error("Вы можете загрузить только .png / .jpeg");
+        message.error('Вы можете загрузить только .png / .jpeg');
       }
     } catch (error) {
       message.error(`${files[0].name}: не загрузился.`);
@@ -41,8 +41,8 @@ export const UploadAvatar = (props) => {
   };
 
   const deleteHandler = () => {
-    setUploadFiles("");
-    props.state("");
+    setUploadFiles('');
+    props.state('');
   };
 
   return (
@@ -57,7 +57,7 @@ export const UploadAvatar = (props) => {
                   <span>
                     <img
                       alt="avatar"
-                      style={{ width: "96px", height: "96px" }}
+                      style={{ width: '96px', height: '96px' }}
                       src={previewSource}
                       className="ant-upload-list-item-image"
                     ></img>
@@ -67,7 +67,7 @@ export const UploadAvatar = (props) => {
                 </div>
                 <span
                   className="ant-upload-list-item-actions"
-                  style={{ display: "flex", justifyContent: "center" }}
+                  style={{ display: 'flex', justifyContent: 'center' }}
                 >
                   <button
                     title="Удалить фото"
