@@ -2,16 +2,16 @@ import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { useHttp } from '../hooks/http.hook';
 import { AuthContext } from '../context/AuthContext';
 import { Loader } from '../components/Loader';
-import { WorkersList } from '../components/WorkersList';
-import {CardList} from "../components/UI/CardList";
 import {CardListWorker} from "../components/UI/CardListWorker";
+import {Button} from "antd";
+import { Empty } from 'antd';
+
 
 export const MyPage = () => {
+  const { token } = useContext(AuthContext);
+  const { request, loading } = useHttp();
+  const [workers, setWorkers] = useState('');
 
-    const {token} = useContext(AuthContext);
-    const {request, loading} = useHttp();
-    const [workers, setWorkers] = useState('');
-    
     const fetchWorkers = useCallback(async () => {
       try {
         const fetched = await request('/api/worker/my', 'GET', null, {
@@ -20,19 +20,33 @@ export const MyPage = () => {
         setWorkers(fetched)
       } catch (e) {}
     }, [token, request])
-  
+
     useEffect(() => {
     fetchWorkers()
     }, [fetchWorkers])
-  
-    if (loading) {
-      return <Loader/>
-    }
 
 
-    return (
-      <>
-        {workers.length && <CardListWorker state={workers} />}
-      </>
-    )
-}
+  if (loading) {
+    return <Loader />;
+  }
+
+  return (
+    <>
+      {workers.length ? (
+        <CardListWorker state={workers} />
+      ) : (
+        <Empty
+          image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+          imageStyle={{
+            height: 60,
+          }}
+          description={<span>Нет созданых анкет</span>}
+        >
+          <Button type="primary" href="/create">
+            Создать сейчас
+          </Button>
+        </Empty>
+      )}
+    </>
+  );
+};

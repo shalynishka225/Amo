@@ -19,7 +19,7 @@ function formatNumber(value) {
 }
 
 class NumericInput extends React.Component {
-  onChange = e => {
+  onChange = (e) => {
     const { value } = e.target;
     const reg = /^-?\d*(\.\d*)?$/;
     if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-') {
@@ -42,13 +42,13 @@ class NumericInput extends React.Component {
 
   render() {
     return (
-        <Input
-          {...this.props}
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-          placeholder="Введіть вік"
-          maxLength={25}
-        />
+      <Input
+        {...this.props}
+        onChange={this.onChange}
+        onBlur={this.onBlur}
+        placeholder="Введіть вік"
+        maxLength={25}
+      />
     );
   }
 }
@@ -59,19 +59,17 @@ class NumberInput extends React.Component {
     this.state = { value: '' };
   }
 
-  onChange = value => {
+  onChange = (value) => {
     this.setState({ value });
   };
 
   render() {
     return (
-        <div style={{ marginLeft: "5px", marginRight: "5px" }}>
-            <NumericInput value={this.state.value} onChange={this.onChange} />
-        </div>
-
-      
+      <div style={{ marginLeft: '5px', marginRight: '5px' }}>
+        <NumericInput value={this.state.value} onChange={this.onChange} />
+      </div>
     );
   }
 }
 
-export default NumberInput
+export default NumberInput;

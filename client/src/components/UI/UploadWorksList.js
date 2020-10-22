@@ -1,33 +1,28 @@
 import { CloudUploadOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, message } from 'antd';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
-export const UploadWorksList = props => {
+export const UploadWorksList = (props) => {
   const [uploadFiles, setUploadFiles] = useState([]);
   const [previewSource, setPreviewSource] = useState([]);
 
   const onDrop = async (files) => {
     const updateFiles = [...uploadFiles, files[0]];
-    
+
     try {
       const isLt2M = files[0].size / 1024 / 1024 < 2;
-      if (
-        files[0].type === "image/jpeg" ||
-        files[0].type === "image/png"
-      ) {
+      if (files[0].type === 'image/jpeg' || files[0].type === 'image/png') {
         if (isLt2M) {
           previewFile(files[0]);
           message.success(`${files[0].name}: загружен успешно`);
           setUploadFiles(updateFiles);
           props.state(updateFiles);
         } else {
-          message.error("Файл должен быть меньше 2Mb");
+          message.error('Файл должен быть меньше 2Mb');
         }
       } else {
-        message.error(
-          "Вы можете загрузить только .png / .jpeg"
-        );
+        message.error('Вы можете загрузить только .png / .jpeg');
       }
     } catch (error) {
       message.error(`${files[0].name}: не загрузился.`);
@@ -38,18 +33,18 @@ export const UploadWorksList = props => {
     onDrop: onDrop,
   });
 
-  const previewFile = file => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
+  const previewFile = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
     reader.onload = () => {
-      setPreviewSource([...previewSource, reader.result])
-    }
-  }
+      setPreviewSource([...previewSource, reader.result]);
+    };
+  };
 
   const deleteHandler = (index) => {
     const arr = uploadFiles.slice();
     arr.splice(index, 1);
-    message.success('файл успешно удалён')
+    message.success('файл успешно удалён');
     setUploadFiles(arr);
     props.state(arr);
   };
@@ -57,7 +52,11 @@ export const UploadWorksList = props => {
   return (
     <div>
       <div {...getRootProps()} className="ant-upload-list ant-upload-list-text">
-        <input icon={<UploadOutlined />} {...getInputProps()} accept="image/x-png,image/jpeg"/>
+        <input
+          icon={<UploadOutlined />}
+          {...getInputProps()}
+          accept="image/x-png,image/jpeg"
+        />
         {uploadFiles.length < 5 && (
           <Button icon={<CloudUploadOutlined />}>Загрузить</Button>
         )}
@@ -78,7 +77,12 @@ export const UploadWorksList = props => {
                               aria-label="paper-clip"
                               className="anticon anticon-paper-clip"
                             >
-                              <img src={previewSource[index]} width='20px' height='20px' alt="avatar"></img>
+                              <img
+                                src={previewSource[index]}
+                                width="20px"
+                                height="20px"
+                                alt="avatar"
+                              ></img>
                             </span>
                           </div>
                           <span
@@ -127,5 +131,5 @@ export const UploadWorksList = props => {
         </span>
       ) : null}
     </div>
-  )
-}
+  );
+};
