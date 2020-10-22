@@ -9,7 +9,7 @@ const router = Router();
 
 router.post('/generate', auth, async (req, res) => {
   try {
-    return res.json(await WorkerController.generate(req.body));
+    return res.json(await WorkerController.generate({ ...req.body, owner: req.user.userId }))
   } catch (error) {
     console.log(error)
   }

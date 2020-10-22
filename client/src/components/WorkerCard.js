@@ -51,7 +51,6 @@ export const WorkerCard = ({ worker }) => {
 
   return (
     <>
-      {console.log(worker)}
       <div>
         <h2>Монтажник</h2>
         <p>Имя: {worker.firstName}</p>
