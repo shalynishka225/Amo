@@ -25,7 +25,7 @@ async function start() {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log(mongoose.models.Worker);
+    //console.log(mongoose.models.Worker);
     app.listen(PORT, () =>
       console.log(`App has been started on port ${PORT}...`)
     );

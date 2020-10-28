@@ -11,6 +11,8 @@ const schema = new Schema({
   avatar: { type: Object, default: '' },
   workPhoto: { type: Array, default: '' },
   certificates: { type: Array, default: '' },
+  region: { type: String, default: '' },
+  locality: { type: String, default: '' },
 });
 
 module.exports = model('Worker', schema, 'Worker');
