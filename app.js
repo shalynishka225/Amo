@@ -1,11 +1,11 @@
-const express = require('express');
-const config = require('config');
-const mongoose = require('mongoose');
-const formidable = require('express-formidable');
-const Auth = require('./modules/auth/auth.routes');
-const Worker = require('./modules/worker/worker.routes');
-const { cloudinary } = require('./utils/cloudinary');
-const { json } = require('express');
+const express = require("express");
+const config = require("config");
+const mongoose = require("mongoose");
+const formidable = require("express-formidable");
+const Auth = require("./modules/auth/auth.routes");
+const Worker = require("./modules/worker/worker.routes");
+const { cloudinary } = require("./utils/cloudinary");
+const { json } = require("express");
 //import { registerRestEndpoints } from './routes';
 
 const app = express();
@@ -13,14 +13,14 @@ const app = express();
 //registerRestEndpoints(app);
 app.use(express.json({ extended: true }));
 
-app.use('/api/auth', Auth);
-app.use('/api/worker', Worker);
+app.use("/api/auth", Auth);
+app.use("/api/worker", Worker);
 
-const PORT = config.get('port') || 5000;
+const PORT = config.get("port") || 5000;
 
 async function start() {
   try {
-    await mongoose.connect(config.get('mongoUri'), {
+    await mongoose.connect(config.get("mongoUri"), {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
@@ -30,32 +30,32 @@ async function start() {
       console.log(`App has been started on port ${PORT}...`)
     );
   } catch (e) {
-    console.log('Server Error', e.message);
+    console.log("Server Error", e.message);
     process.exit(1);
   }
 }
 
-app.post('/api/upload/works', formidable(), async (req, res) => {
+app.post("/api/upload/works", formidable(), async (req, res) => {
   try {
     const uploadWorksFiles = await Promise.all(
       Object.values(req.files).map((file) =>
-        cloudinary.uploader.upload(file.path, { upload_preset: 'example' })
+        cloudinary.uploader.upload(file.path, { upload_preset: "example" })
       )
     );
     res.json(uploadWorksFiles);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ err: 'Произошла ошибка в загрузке фотографий' });
+    res.status(500).json({ err: "Произошла ошибка в загрузке фотографий" });
   }
 });
 
-app.post('/api/upload/certificates', formidable(), async (req, res) => {
+app.post("/api/upload/certificates", formidable(), async (req, res) => {
   try {
     const uploadWorksFiles = await Promise.all(
       Object.values(req.files).map((file) =>
         cloudinary.uploader.upload(file.path, {
-          eager: [{ flags: 'attachment:my_pdf' }],
-          upload_preset: 'example',
+          eager: [{ flags: "attachment:my_pdf" }],
+          upload_preset: "example",
         })
       )
     );
@@ -63,17 +63,25 @@ app.post('/api/upload/certificates', formidable(), async (req, res) => {
     res.json(uploadWorksFiles);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ err: 'Произошла ошибка в загрзуке файлов' });
+    res.status(500).json({ err: "Произошла ошибка в загрзуке файлов" });
   }
 });
 
-app.post('/api/upload/avatar', formidable(), async (req, res) => {
+app.post("/api/upload/avatar", formidable(), async (req, res) => {
   try {
     const uploadedResponce = await cloudinary.uploader.upload(
       req.files.avatar.path,
-      { upload_preset: 'example' }
+      { upload_preset: "example" }
     );
     res.json(uploadedResponce);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/api/search", async (req, res) => {
+  try {
+    console.log(req);
   } catch (error) {
     console.log(error);
   }

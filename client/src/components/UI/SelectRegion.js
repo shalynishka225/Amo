@@ -1,5 +1,5 @@
-import { Select } from 'antd';
-import React, { useState } from 'react';
+import { Select } from "antd";
+import React, { useState } from "react";
 
 const { Option } = Select;
 
@@ -18,7 +18,7 @@ export const SelectRegion = (props) => {
     <>
       <Select
         defaultValue="Виберіть область"
-        style={{ width: '100%' }}
+        style={{ width: "100%" }}
         onChange={handleChangeRegion}
       >
         {props.data.map((item) => {
@@ -33,7 +33,7 @@ export const SelectRegion = (props) => {
       {region != null ? (
         <Select
           defaultValue="Виберіть населений пункт"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           onChange={handleChangeLocality}
         >
           {props.data.map((item) => {

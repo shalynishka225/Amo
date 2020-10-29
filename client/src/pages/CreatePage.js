@@ -1,83 +1,83 @@
-import { Row, Col, Button, Checkbox, Divider } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
-import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import { UploadAvatar } from '../components/UI/UploadAvatar';
-import { UploadWorksList } from '../components/UI/UploadWorksList';
-import Axios from 'axios';
-import { UploadCertificates } from '../components/UI/UploadCertificates';
-import { SelectRegion } from '../components/UI/SelectRegion';
-import { InputWithProps } from '../components/UI/InputWithProps';
-import { Loader } from './../components/Loader';
+import { Row, Col, Button, Checkbox, Divider } from "antd";
+import TextArea from "antd/lib/input/TextArea";
+import React, { useState, useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { UploadAvatar } from "../components/UI/UploadAvatar";
+import { UploadWorksList } from "../components/UI/UploadWorksList";
+import Axios from "axios";
+import { UploadCertificates } from "../components/UI/UploadCertificates";
+import { SelectRegion } from "../components/UI/SelectRegion";
+import { InputWithProps } from "../components/UI/InputWithProps";
+import { Loader } from "./../components/Loader";
 
 export const CreatePage = () => {
   const history = useHistory();
   const auth = useContext(AuthContext);
-  const [firstName, setFirstName] = useState('');
-  const [secondName, setSecondName] = useState('');
-  const [thirdName, setThirdName] = useState('');
-  const [about, setAbout] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [secondName, setSecondName] = useState("");
+  const [thirdName, setThirdName] = useState("");
+  const [about, setAbout] = useState("");
   const [checkTable, setCheckTable] = useState([
     {
-      key: '1',
-      work: 'Бытовые кондиционеры',
+      key: "1",
+      work: "Бытовые кондиционеры",
       mounting: false,
       diagnostics: false,
       service: false,
     },
     {
-      key: '2',
-      work: 'Напівпромислові',
+      key: "2",
+      work: "Напівпромислові",
       mounting: false,
       diagnostics: false,
       service: false,
     },
     {
-      key: '3',
-      work: 'Промислові',
+      key: "3",
+      work: "Промислові",
       mounting: false,
       diagnostics: false,
       service: false,
     },
     {
-      key: '4',
-      work: 'КББ',
+      key: "4",
+      work: "КББ",
       mounting: false,
       diagnostics: false,
       service: false,
     },
     {
-      key: '5',
-      work: 'Вентиляція',
+      key: "5",
+      work: "Вентиляція",
       mounting: false,
       diagnostics: false,
       service: false,
     },
     {
-      key: '6',
-      work: 'Теплові насоси',
+      key: "6",
+      work: "Теплові насоси",
       mounting: false,
       diagnostics: false,
       service: false,
     },
     {
-      key: '7',
-      work: 'Системи опалення',
+      key: "7",
+      work: "Системи опалення",
       mounting: false,
       diagnostics: false,
       service: false,
     },
     {
-      key: '8',
-      work: 'Бойлери',
+      key: "8",
+      work: "Бойлери",
       mounting: false,
       diagnostics: false,
       service: false,
     },
     {
-      key: '9',
-      work: 'Газові колонки, котли',
+      key: "9",
+      work: "Газові колонки, котли",
       mounting: false,
       diagnostics: false,
       service: false,
@@ -86,14 +86,13 @@ export const CreatePage = () => {
   const [uploadedAvatar, setUploadedAvatar] = useState(null);
   const [uploadedWorksFile, setUploadedWorksFile] = useState([]);
   const [uploadCertificates, setUploadCertificates] = useState([]);
-  const [fetchedRegion, setFetchedRegion] = useState('');
-  const [region, setRegion] = useState('');
-  const [locality, setLocality] = useState('');
+  const [fetchedRegion, setFetchedRegion] = useState("");
+  const [region, setRegion] = useState("");
+  const [locality, setLocality] = useState("");
 
   useEffect(() => {
     const fetch = async () => {
-      const response = await Axios('https://api.hh.ru/areas/5');
-      console.log(response.data.areas);
+      const response = await Axios("https://api.hh.ru/areas/5");
       setFetchedRegion(response.data.areas);
     };
     fetch();
@@ -109,7 +108,7 @@ export const CreatePage = () => {
           //let percent = Math.floor( loaded * 100 / total );
         },
         headers: {
-          'content-type': 'multipart/form-data',
+          "content-type": "multipart/form-data",
         },
       };
 
@@ -117,7 +116,7 @@ export const CreatePage = () => {
         formData.append(`file${index}`, item);
       });
 
-      const res = await Axios.post('/api/upload/works', formData, config);
+      const res = await Axios.post("/api/upload/works", formData, config);
 
       if (Boolean(res)) {
         res.data.map((file) => updateWorks.push(file.secure_url));
@@ -127,7 +126,7 @@ export const CreatePage = () => {
       const formDataCertificates = new FormData();
       const configCertificates = {
         headers: {
-          'content-type': 'multipart/form-data',
+          "content-type": "multipart/form-data",
         },
       };
 
@@ -136,7 +135,7 @@ export const CreatePage = () => {
       });
 
       const resFiles = await Axios.post(
-        '/api/upload/certificates',
+        "/api/upload/certificates",
         formDataCertificates,
         configCertificates
       );
@@ -148,14 +147,14 @@ export const CreatePage = () => {
 
       let updateAvatar = uploadedAvatar[0];
       const formDataAvatar = new FormData();
-      formDataAvatar.append('avatar', updateAvatar);
+      formDataAvatar.append("avatar", updateAvatar);
       const configAvatar = {
         headers: {
-          'content-type': 'multipart/form-data',
+          "content-type": "multipart/form-data",
         },
       };
       const resAvatar = await Axios.post(
-        '/api/upload/avatar',
+        "/api/upload/avatar",
         formDataAvatar,
         configAvatar
       );
@@ -166,13 +165,13 @@ export const CreatePage = () => {
 
       const configData = {
         headers: {
-          'content-type': 'application/json',
+          "content-type": "application/json",
           Authorization: `Bearer ${auth.token}`,
         },
       };
 
       const data = await Axios.post(
-        '/api/worker/generate',
+        "/api/worker/generate",
         {
           firstName: firstName,
           secondName: secondName,
@@ -196,7 +195,7 @@ export const CreatePage = () => {
   };
 
   return (
-    <Row style={{ justifyContent: 'center' }}>
+    <Row style={{ justifyContent: "center" }}>
       <Col span={12}>
         <UploadAvatar uploadedFile={uploadedAvatar} state={setUploadedAvatar} />
 
@@ -252,7 +251,7 @@ export const CreatePage = () => {
             return (
               <Col key={index}>
                 <Checkbox
-                  value={'M-' + index + 1}
+                  value={"M-" + index + 1}
                   onClick={(e) => {
                     let changedArray = checkTable;
                     changedArray[index].mounting = e.target.checked;
@@ -272,7 +271,7 @@ export const CreatePage = () => {
             return (
               <Col key={index}>
                 <Checkbox
-                  value={'D-' + index + 1}
+                  value={"D-" + index + 1}
                   onClick={(e) => {
                     let changedArray = checkTable;
                     changedArray[index].diagnostics = e.target.checked;
@@ -292,7 +291,7 @@ export const CreatePage = () => {
             return (
               <Col key={index}>
                 <Checkbox
-                  value={'S-' + index + 1}
+                  value={"S-" + index + 1}
                   onClick={(e) => {
                     let changedArray = checkTable;
                     changedArray[index].service = e.target.checked;
