@@ -2,13 +2,15 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Input, Menu } from "antd";
 import Sider from "antd/lib/layout/Sider";
 import Axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Loader } from "../Loader";
 import { IconsList } from "./IconsList";
 import { SelectRegion } from "./SelectRegion";
 import { useDebounce } from "use-debounce";
+import { AuthContext } from "../../context/AuthContext";
 
 export const SiderMenu = (props) => {
+  const auth = useContext(AuthContext);
   const [search, setSearch] = useState("");
   const [fetchedRegion, setFetchedRegion] = useState("");
   const [region, setRegion] = useState("");
@@ -22,23 +24,28 @@ export const SiderMenu = (props) => {
       //setResults(results);
       //});
     }
-  });
+  }, [debouncedSearch]);
 
   useEffect(() => {
-    const fetch = async () => {
-      const response = await Axios("https://api.hh.ru/areas/5");
-      setFetchedRegion(response.data.areas);
-    };
-    fetch();
+    (async () => {
+      const res = await Axios("https://api.hh.ru/areas/5");
+      setFetchedRegion(res.data.areas);
+    })();
   }, []);
 
   const searchCharacters = (search) => {
     console.log(search);
-    Axios.get("/api/search", {
-      lastName: search,
+    Axios({
+      method: "GET",
+      url: "/api/search",
+      params: {
+        lastName: search,
+        region: region,
+        locality: locality,
+      },
     }).then(
       (response) => {
-        console.log(response);
+        props.state(response.data);
       },
       (error) => {
         console.log(error);

@@ -7,6 +7,7 @@ const Worker = require("./modules/worker/worker.routes");
 const { cloudinary } = require("./utils/cloudinary");
 const { json } = require("express");
 //import { registerRestEndpoints } from './routes';
+const WorkerModel = require("./modules/worker/worker.model");
 
 const app = express();
 
@@ -81,7 +82,13 @@ app.post("/api/upload/avatar", formidable(), async (req, res) => {
 
 app.get("/api/search", async (req, res) => {
   try {
-    console.log(req);
+    const region = req.query.region;
+    const locality = req.query.locality;
+    const name = ".*" + req.query.lastName + ".*";
+    const workers = await WorkerModel.find({
+      secondName: { $regex: name },
+    });
+    res.json(workers);
   } catch (error) {
     console.log(error);
   }
