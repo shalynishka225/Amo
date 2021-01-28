@@ -1,4 +1,4 @@
-const { Schema, model, Types } = require('mongoose');
+const { Schema, model, Types } = require("mongoose");
 
 const schema = new Schema({
   email: {
@@ -10,12 +10,10 @@ const schema = new Schema({
     type: String,
     required: true,
   },
-  workers: [
-    {
-      type: Types.ObjectId,
-      ref: 'Worker',
-    },
-  ],
+  worker: {
+    type: Types.ObjectId,
+    ref: "Worker",
+  },
 });
 
-module.exports = model('User', schema, 'User');
+module.exports = model("User", schema, "User");

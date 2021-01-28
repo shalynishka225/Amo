@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f9a47831-7016-4ce9-9fd3-69bd12a23c52" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UI/CardList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/CardList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UI/CardListWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/CardListWorker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UI/SelectRegion.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/SelectRegion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UI/SiderMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/SiderMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UI/UploadAvatar.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/UploadAvatar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UI/UploadCertificates.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/UploadCertificates.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UI/UploadWorksList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/UploadWorksList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/WorkerCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/WorkerCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/WorkersList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/WorkersList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/CreatePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CreatePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/DetailPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/DetailPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/MyPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/MyPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/WorkersPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/WorkersPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/auth/auth.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/auth/auth.model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/auth/auth.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/auth/auth.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/worker/worker.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/worker/worker.routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1neNXXEqEt4IgWa41eTMRoYwp1v" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\a_bag\Desktop\Amo\client\src\pages" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f9a47831-7016-4ce9-9fd3-69bd12a23c52" name="Default Changelist" comment="" />
+      <created>1611746642421</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1611746642421</updated>
+      <workItem from="1611746651593" duration="152000" />
+      <workItem from="1611746819744" duration="18439000" />
+      <workItem from="1611838762431" duration="3922000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

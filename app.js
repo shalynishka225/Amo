@@ -5,7 +5,6 @@ const formidable = require("express-formidable");
 const Auth = require("./modules/auth/auth.routes");
 const Worker = require("./modules/worker/worker.routes");
 const { cloudinary } = require("./utils/cloudinary");
-const { json } = require("express");
 //import { registerRestEndpoints } from './routes';
 const WorkerModel = require("./modules/worker/worker.model");
 
@@ -60,10 +59,10 @@ app.post("/api/upload/certificates", formidable(), async (req, res) => {
         })
       )
     );
-    console.log(uploadWorksFiles[0].eager);
+    console.log(uploadWorksFiles);
     res.json(uploadWorksFiles);
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ err: "Произошла ошибка в загрзуке файлов" });
   }
 });

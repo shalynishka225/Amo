@@ -3,9 +3,9 @@ import { AuthContext } from "../context/AuthContext";
 import { useHttp } from "../hooks/http.hook";
 import { useParams } from "react-router-dom";
 import { Loader } from "../components/Loader";
-import { WorkerCard } from "../components/WorkerCard";
+import { EditCard } from "../components/EditCard";
 
-export const DetailPage = () => {
+export const EditPage = () => {
   const { token } = useContext(AuthContext);
   const { request, loading } = useHttp();
   const [worker, setWorker] = useState(null);
@@ -13,9 +13,14 @@ export const DetailPage = () => {
 
   const getWorker = useCallback(async () => {
     try {
-      const fetched = await request(`/api/worker/${workerId}`, "GET", null, {
-        Authorization: `Bearer ${token}`,
-      });
+      const fetched = await request(
+        `/api/worker/edit/${workerId}`,
+        "GET",
+        null,
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
       setWorker(fetched);
     } catch (e) {}
   }, [token, workerId, request]);
@@ -27,5 +32,5 @@ export const DetailPage = () => {
   if (loading) {
     return <Loader />;
   }
-  return <>{!loading && worker && <WorkerCard worker={worker} />}</>;
+  return <>{!loading && worker && <EditCard worker={worker} />}</>;
 };

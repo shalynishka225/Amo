@@ -1,12 +1,12 @@
-import React from 'react';
-import 'antd/dist/antd.css';
-import { Layout } from 'antd';
-import { useRoutes } from './routes';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { useAuth } from './hooks/auth.hook';
-import { AuthContext } from './context/AuthContext';
-import { Navbar } from './components/Navbar';
-import { Loader } from './components/Loader';
+import React from "react";
+import "antd/dist/antd.css";
+import { Layout } from "antd";
+import { useRoutes } from "./routes";
+import { BrowserRouter as Router } from "react-router-dom";
+import { useAuth } from "./hooks/auth.hook";
+import { AuthContext } from "./context/AuthContext";
+import { Navbar } from "./components/Navbar";
+import { Loader } from "./components/Loader";
 
 const { Content, Footer } = Layout;
 
@@ -33,7 +33,7 @@ function App() {
         <Layout>
           <Content
             className="site-layout container"
-            style={{ padding: '0 50px', marginTop: 64 }}
+            style={{ padding: "0 50px", marginTop: 64 }}
           >
             <div
               className="site-layout-background"
@@ -42,7 +42,7 @@ function App() {
               <h1>{routes}</h1>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Mapuik design ©2020</Footer>
+          <Footer style={{ textAlign: "center" }}>Antd design ©2020</Footer>
         </Layout>
       </Router>
     </AuthContext.Provider>

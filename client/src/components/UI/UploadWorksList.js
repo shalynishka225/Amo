@@ -1,10 +1,10 @@
-import { CloudUploadOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, message } from 'antd';
-import React, { useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { CloudUploadOutlined, UploadOutlined } from "@ant-design/icons";
+import { Button, message } from "antd";
+import React, { useState } from "react";
+import { useDropzone } from "react-dropzone";
 
 export const UploadWorksList = (props) => {
-  const [uploadFiles, setUploadFiles] = useState([]);
+  const [uploadFiles, setUploadFiles] = useState(props.preview);
   const [previewSource, setPreviewSource] = useState([]);
 
   const onDrop = async (files) => {
@@ -12,17 +12,17 @@ export const UploadWorksList = (props) => {
 
     try {
       const isLt2M = files[0].size / 1024 / 1024 < 2;
-      if (files[0].type === 'image/jpeg' || files[0].type === 'image/png') {
+      if (files[0].type === "image/jpeg" || files[0].type === "image/png") {
         if (isLt2M) {
           previewFile(files[0]);
           message.success(`${files[0].name}: загружен успешно`);
           setUploadFiles(updateFiles);
           props.state(updateFiles);
         } else {
-          message.error('Файл должен быть меньше 2Mb');
+          message.error("Файл должен быть меньше 2Mb");
         }
       } else {
-        message.error('Вы можете загрузить только .png / .jpeg');
+        message.error("Вы можете загрузить только .png / .jpeg");
       }
     } catch (error) {
       message.error(`${files[0].name}: не загрузился.`);
@@ -30,7 +30,7 @@ export const UploadWorksList = (props) => {
   };
 
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop: onDrop,
+    onDrop,
   });
 
   const previewFile = (file) => {
@@ -44,7 +44,7 @@ export const UploadWorksList = (props) => {
   const deleteHandler = (index) => {
     const arr = uploadFiles.slice();
     arr.splice(index, 1);
-    message.success('файл успешно удалён');
+    message.success("файл успешно удалён");
     setUploadFiles(arr);
     props.state(arr);
   };
@@ -63,12 +63,15 @@ export const UploadWorksList = (props) => {
       </div>
       {uploadFiles ? (
         <span>
-          {uploadFiles.map((item, index) => {
-            return (
-              <div className="ant-upload-list ant-upload-list-text" key={index}>
-                <div className="">
-                  <span>
-                    <div className="ant-upload-list-item ant-upload-list-item-done ant-upload-list-item-list-type-text">
+          <div className="ant-upload-list ant-upload-list-text">
+            <div className="">
+              <span>
+                {uploadFiles.map((item, index) => {
+                  return (
+                    <div
+                      className="ant-upload-list-item ant-upload-list-item-done ant-upload-list-item-list-type-text"
+                      key={index}
+                    >
                       <div className="ant-upload-list-item-info">
                         <span>
                           <div className="ant-upload-text-icon">
@@ -78,10 +81,11 @@ export const UploadWorksList = (props) => {
                               className="anticon anticon-paper-clip"
                             >
                               <img
-                                src={previewSource[index]}
+                                src={
+                                  item.file ? item.file : previewSource[index]
+                                }
                                 width="20px"
                                 height="20px"
-                                alt="avatar"
                               ></img>
                             </span>
                           </div>
@@ -123,11 +127,11 @@ export const UploadWorksList = (props) => {
                         </span>
                       </div>
                     </div>
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+                  );
+                })}
+              </span>
+            </div>
+          </div>
         </span>
       ) : null}
     </div>

@@ -1,40 +1,51 @@
-import React, { useState } from "react";
-import { Layout } from "antd";
-import { SiderMenu } from "./UI/SiderMenu";
-import { CardList } from "./UI/CardList";
-import { Loader } from "./Loader";
+import React from "react";
+import {Card, Col, Row} from "antd";
+import {Loader} from "./Loader";
+import {Link} from "react-router-dom";
+import Meta from "antd/lib/card/Meta";
+import Avatar from "antd/lib/avatar/avatar";
+import QRCode from "react-qr-code/lib/components/QRCode";
 
-const { Content } = Layout;
+export const WorkersList = ({workers}) => {
 
-export const WorkersList = ({ workers }) => {
-  const [searchWorkers, setSearchWorkers] = useState("");
-
-  if (!workers.length) {
-    return <Loader />;
-  }
-
-  console.log(searchWorkers);
-  console.log(workers);
-
-  return (
-    <Layout>
-      <SiderMenu state={setSearchWorkers} />
-      <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Content style={{ overflow: "initial" }}>
-          <div
-            className="site-layout-background"
-            style={{ padding: 24, textAlign: "center" }}
-          >
-            <div className="site-card-wrapper">
-              {workers.length ? (
-                <CardList state={workers} search={searchWorkers} />
-              ) : (
-                <Loader />
-              )}
-            </div>
-          </div>
-        </Content>
-      </Layout>
-    </Layout>
-  );
+    return (
+        <Row>
+            {
+                workers && workers.map((worker) => {
+                    return (
+                        <Col span={8} key={worker._id} style={{width: 300}}>
+                            <Link to={`/detail/${worker._id}`}>
+                                <Card hoverable style={{margin: "1rem"}}>
+                                    <Meta
+                                        avatar={<Avatar src={worker.avatar}/>}
+                                        title={
+                                            worker.firstName +
+                                            " " +
+                                            worker.secondName +
+                                            " " +
+                                            worker.thirdName
+                                        }
+                                        description={
+                                            "на сайте с " +
+                                            new Date(worker.date).toLocaleDateString()
+                                        }
+                                    />
+                                    <Row>
+                                        <Col>
+                                            <QRCode
+                                                size={50}
+                                                value={`/detail/${worker._id}`}
+                                            />
+                                        </Col>
+                                        <Col>
+                                            <small>{worker.locality}</small>
+                                        </Col>
+                                    </Row>
+                                </Card>
+                            </Link>
+                        </Col>
+                    );
+                })}
+        </Row>
+    );
 };

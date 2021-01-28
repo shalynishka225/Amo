@@ -1,10 +1,11 @@
-import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { WorkersPage } from './pages/WorkersPage';
-import { CreatePage } from './pages/CreatePage';
-import { DetailPage } from './pages/DetailPage';
-import { AuthPage } from './pages/AuthPage';
-import { MyPage } from './pages/MyPage';
+import React from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { WorkersPage } from "./pages/WorkersPage";
+import { CreatePage } from "./pages/CreatePage";
+import { DetailPage } from "./pages/DetailPage";
+import { AuthPage } from "./pages/AuthPage";
+import { MyPage } from "./pages/MyPage";
+import { EditPage } from "./pages/EditPage";
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -21,6 +22,9 @@ export const useRoutes = (isAuthenticated) => {
         </Route>
         <Route path="/detail/:id" exact>
           <DetailPage></DetailPage>
+        </Route>
+        <Route path="/edit/:id" exact>
+          <EditPage />
         </Route>
         <Redirect to="/create" />
       </Switch>

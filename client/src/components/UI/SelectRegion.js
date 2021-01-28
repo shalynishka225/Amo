@@ -4,7 +4,7 @@ import React, { useState } from "react";
 const { Option } = Select;
 
 export const SelectRegion = (props) => {
-  const [region, setRegion] = useState(null);
+  const [region, setRegion] = useState(props.fetchedRegion);
   const handleChangeRegion = (value) => {
     setRegion(value);
   };
@@ -17,7 +17,11 @@ export const SelectRegion = (props) => {
   return (
     <>
       <Select
-        defaultValue="Виберіть область"
+        defaultValue={
+          props.fetchedRegion !== null
+            ? props.fetchedRegion
+            : "Виберіть область"
+        }
         style={{ width: "100%" }}
         onChange={handleChangeRegion}
       >
@@ -30,9 +34,13 @@ export const SelectRegion = (props) => {
         })}
       </Select>
 
-      {region != null ? (
+      {region !== null || props.fetchedLocality != null ? (
         <Select
-          defaultValue="Виберіть населений пункт"
+          defaultValue={
+            props.fetchedLocality !== null
+              ? props.fetchedLocality
+              : "Виберіть населений пункт"
+          }
           style={{ width: "100%" }}
           onChange={handleChangeLocality}
         >
