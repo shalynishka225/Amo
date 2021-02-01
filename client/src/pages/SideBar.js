@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Form, Input, Layout, Menu} from "antd";
 import Sider from "antd/lib/layout/Sider";
 import {SearchOutlined} from "@ant-design/icons";
@@ -7,8 +7,15 @@ import {SelectRegion} from "../components/UI/SelectRegion";
 import {Loader} from "../components/Loader";
 
 const SideBar = (props) => {
-    const [region, setRegion] = useState("");
-    const [locality, setLocality] = useState("");
+    const [region, setRegion] = useState(null);
+    const [locality, setLocality] = useState(null);
+    const [surName, setSurName] = useState(null)
+
+    const handleChangeState = () => {
+        props.region(region)
+        props.locality(locality)
+        props.surName(surName)
+    }
 
     return (
         <Sider
@@ -26,7 +33,7 @@ const SideBar = (props) => {
                        <Form.Item style={{paddingTop: '10px'}}>
                            <Input
                                placeholder="Пошук по Прізвищу"
-                               //  onChange={(e) => setSearch(e.target.value)}
+                               onChange={(e) => setSurName(e.target.value)}
                            />
                        </Form.Item>
                         <Form.Item>
@@ -42,7 +49,7 @@ const SideBar = (props) => {
                             )}
                         </Form.Item>
                         <Form.Item>
-                            <Button type='primary'>Поиск</Button>
+                            <Button type='primary' onClick={handleChangeState}>Поиск</Button>
                         </Form.Item>
                     </Form>
                 </div>

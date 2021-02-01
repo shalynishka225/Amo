@@ -19,9 +19,32 @@ router.get('/pagination', auth, async (req, res) => {
     try {
         const limit = parseInt(req.query.limit);
         const skip = parseInt(req.query.skip);
-        const worker = await Worker.find().skip(skip).limit(limit)
-        const total = await Worker.find();
-        return res.status(200).json({worker, total: total.length})
+        const region = req.query.region;
+        const locality = req.query.locality;
+        const secondName = req.query.surname;
+        let filter = {}
+        let total = 0
+
+        if(region !== undefined) {
+            filter = { region }
+            total = await Worker.find(filter);
+        }
+        if(locality !== undefined) {
+            filter = { locality }
+            total = await Worker.find(filter);
+        } if(secondName !== undefined) {
+            filter = { secondName : {$regex: secondName} }
+            total = await Worker.find(filter);
+        }
+        else {
+            total = await Worker.find(filter);
+        }
+
+        console.log(region, locality, secondName)
+        const worker = await Worker.find(filter).skip(skip).limit(limit);
+
+        return res.status(200).json({worker, total: total.length })
+
     } catch (e) {
         console.log(e)
     }

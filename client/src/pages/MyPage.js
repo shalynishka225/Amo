@@ -5,6 +5,7 @@ import { Loader } from "../components/Loader";
 import { CardListWorker } from "../components/UI/CardListWorker";
 import { Button } from "antd";
 import { Empty } from "antd";
+import {Link} from "react-router-dom";
 
 export const MyPage = () => {
   const { token } = useContext(AuthContext);
@@ -59,9 +60,9 @@ export const MyPage = () => {
           }}
           description={<span>Нет созданых анкет</span>}
         >
-          <Button type="primary" href="/create">
+          <Link to='/create'><Button type="primary">
             Создать сейчас
-          </Button>
+          </Button></Link>
         </Empty>
       )}
     </>

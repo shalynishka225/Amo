@@ -278,8 +278,6 @@ export const CreatePage = () => {
             data={fetchedRegion}
             region={setRegion}
             locality={setLocality}
-            fetchedRegion={null}
-            fetchedLocality={null}
           />
         ) : (
           <Loader />

@@ -4,13 +4,17 @@ import React, { useState } from "react";
 const { Option } = Select;
 
 export const SelectRegion = (props) => {
-  const [region, setRegion] = useState(props.fetchedRegion);
+  const [region, setRegion] = useState(null);
+  const [locality, setLocality] = useState(null);
+
   const handleChangeRegion = (value) => {
     setRegion(value);
+    props.region(value);
+    //console.log(encodeURI(value));
   };
 
   const handleChangeLocality = (value) => {
-    props.region(region);
+    setLocality(value)
     props.locality(value);
   };
 
@@ -18,8 +22,8 @@ export const SelectRegion = (props) => {
     <>
       <Select
         defaultValue={
-          props.fetchedRegion !== null
-            ? props.fetchedRegion
+            region
+            ? region
             : "Виберіть область"
         }
         style={{ width: "100%" }}
@@ -34,11 +38,11 @@ export const SelectRegion = (props) => {
         })}
       </Select>
 
-      {region !== null || props.fetchedLocality != null ? (
+      {region ? (
         <Select
           defaultValue={
-            props.fetchedLocality !== null
-              ? props.fetchedLocality
+            locality
+              ? locality
               : "Виберіть населений пункт"
           }
           style={{ width: "100%" }}

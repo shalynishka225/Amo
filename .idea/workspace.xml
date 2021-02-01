@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="f9a47831-7016-4ce9-9fd3-69bd12a23c52" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UI/CardList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/CardList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UI/CardListWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/CardListWorker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/UI/SelectRegion.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/SelectRegion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UI/SiderMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/SiderMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UI/UploadAvatar.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/UploadAvatar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UI/UploadCertificates.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/UploadCertificates.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UI/UploadWorksList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UI/UploadWorksList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/WorkerCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/WorkerCard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/WorkersList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/WorkersList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/CreatePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CreatePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/DetailPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/DetailPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/MyPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/MyPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SideBar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/WorkersPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/WorkersPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/auth/auth.model.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/auth/auth.model.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/auth/auth.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/auth/auth.routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/worker/worker.routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/modules/worker/worker.routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,10 +66,28 @@
       <workItem from="1611746651593" duration="152000" />
       <workItem from="1611746819744" duration="18439000" />
       <workItem from="1611838762431" duration="3922000" />
+      <workItem from="1611901058682" duration="20827000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="92" y="92" width="1736" height="866" key="DiffContextDialog" timestamp="1611901374916">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="92" y="92" width="1736" height="866" key="DiffContextDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1611901374916" />
   </component>
 </project>

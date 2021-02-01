@@ -38,7 +38,7 @@ export const WorkersList = ({workers}) => {
                                             />
                                         </Col>
                                         <Col>
-                                            <small>{worker.locality}</small>
+                                            <small>город: {worker.locality ? worker.locality : 'не указан'}</small>
                                         </Col>
                                     </Row>
                                 </Card>
